@@ -362,6 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-Local.db
-Local.db-shm
-Local.db-wal
+./SmokeTestLogin/Local.db
+
+./SmokeTestLogin/Local.db-shm
+
+./SmokeTestLogin/Local.db-wal
