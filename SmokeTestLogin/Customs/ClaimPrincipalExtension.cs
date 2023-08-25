@@ -5,15 +5,15 @@ namespace SmokeTestLogin.Web.Customs
 {
     public static class ClaimPrincipalExtension
     {
-        public static User GetUser(this ClaimsPrincipal context)
+        public static User GetUser(this ClaimsPrincipal principal)
         {
-            if (!context.Identity!.IsAuthenticated)
+            if (!principal.Identity!.IsAuthenticated)
                 throw new InvalidOperationException("User must login");
             return new User
             {
-                Id = long.Parse(context.FindFirstValue(ClaimTypes.Sid)),
-                Name = context.FindFirstValue(ClaimTypes.Name),
-                UserName = context.FindFirstValue(ClaimTypes.NameIdentifier)
+                Id = long.Parse(principal.FindFirstValue(ClaimTypes.Sid)),
+                Name = principal.FindFirstValue(ClaimTypes.Name),
+                UserName = principal.FindFirstValue(ClaimTypes.NameIdentifier)
             };
         }
     }
