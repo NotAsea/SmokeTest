@@ -1,0 +1,46 @@
+﻿@using SmokeTestLogin.Web.Models
+@model UserModel
+
+@{
+    ViewData["Title"] = "Login Page";
+}
+<style>
+    .my-card {
+        width: 30%;
+        height: 65%;
+    }
+</style>
+<div class="container-sm d-flex justify-content-center" style="height: 80vh">
+    <div class="card align-self-center my-card m-1 bg-gradient">
+        <div class="card-body">
+            <h1 class="text-center">Login</h1>
+            <h5 class="text-center fst-italic">Look like you need login to proceed</h5>
+            @using (Html.BeginForm("LoginForm", "Login", FormMethod.Post, new { @class = "m-2 mt-4"}))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ReturnUrl)
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    @Html.LabelFor(m => m.UserName, new { @class="form-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-warning" })
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    @Html.LabelFor(m=> m.Password, new { @class="form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-warning" })
+                </div>
+
+                @Html.ValidationMessage("login", new { @class = "text-warning" })
+
+                <!-- Submit button -->
+                <center>
+                    <button type="submit" class="btn btn-primary btn-block m-3">Sign in</button>
+                </center>
+            }
+        </div>
+    </div>
+</div>

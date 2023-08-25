@@ -1,0 +1,32 @@
+﻿@using SmokeTestLogin.Data.Entities
+@model IEnumerable<User>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="text-center">All User</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">UserName</th>
+                <th scope="col">Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <th scope="row">@user.Id</th>
+                    <td>@user.Name</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Password</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
