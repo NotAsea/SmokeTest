@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Web", "Smoke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Test", "SmokeTestLogin.Test\SmokeTestLogin.Test.csproj", "{610D6DF5-C521-44C5-9D1E-9791762565F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeTestLogin.Data", "SmokeTestLogin.Data\SmokeTestLogin.Data.csproj", "{2599F18B-237B-489D-B279-E6DFBB743F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Data", "SmokeTestLogin.Data\SmokeTestLogin.Data.csproj", "{2599F18B-237B-489D-B279-E6DFBB743F86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F860D3D2-FFE3-46E5-B4D7-9C51BB3FC702}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
