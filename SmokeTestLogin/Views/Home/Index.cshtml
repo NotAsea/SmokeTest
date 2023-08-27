@@ -4,6 +4,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script src="~/js/UserEdit/DisplayEditUser.js"></script>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -15,6 +17,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">UserName</th>
                 <th scope="col">Password</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +28,12 @@
                     <td>@user.Name</td>
                     <td>@user.UserName</td>
                     <td>@user.Password</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<div class="modal fade" id="editBox" tabindex="-1" aria-labelledby="editBox" aria-hidden="true"></div>

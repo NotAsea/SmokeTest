@@ -30,7 +30,7 @@ namespace SmokeTestLogin.Test
             var mockLogger = new Mock<ILogger<HomeController>>();
 
             var mockUsers = new Mock<IUserService>();
-            mockUsers.Setup(x => x.GetUsersAsync()).ReturnsAsync(new[] { new User { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq" } });
+            mockUsers.Setup(x => x.GetUsersAsync(0, -1)).ReturnsAsync(new[] { new User { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq" } });
 
             //set up controller context
             var controllerContext = new ControllerContext

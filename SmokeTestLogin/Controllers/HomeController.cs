@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmokeTestLogin.Data.Entities;
+using SmokeTestLogin.Data.Utils;
 using SmokeTestLogin.Models;
 using SmokeTestLogin.Web.Customs;
 using SmokeTestLogin.Web.Services.Interfaces;
@@ -23,7 +25,7 @@ namespace SmokeTestLogin.Controllers
         {
             ViewBag.Home = "true";
             _logger.LogInformation("Enter Home");
-            var user = await _userService.GetUsersAsync();
+            var user = await _userService.GetUsersAsync(0, -1);
             return View(user);
         }
 
@@ -38,6 +40,35 @@ namespace SmokeTestLogin.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> Edit(long id)
+        {
+            var user = await _userService.FindUserAsync(id);
+            if (user is null)
+            {
+                _logger.LogError("User with Id {} does not exist", id);
+                return BadRequest();
+            }
+            ViewData["user"] = user;
+            return PartialView("_Edit", user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(User user)
+        {
+            user._passwordUnHash = user.Password;
+            user.Password = await SecretHasher.HashAsync(user._passwordUnHash);
+            var res = await _userService.UpdateAsync(user);
+            if (res == "OK")
+            {
+                return Json(new { res });
+            }
+            else
+            {
+                _logger.LogError("Error: {}", res);
+                return BadRequest();
+            }
         }
     }
 }

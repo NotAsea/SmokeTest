@@ -13,6 +13,8 @@
         /// this field store raw password, which in real world is bad practice, but since we use <see cref="Bogus.Faker"/> 
         /// to generate random pasword, and for the sake of demo, store raw password in database here is acceptable
         /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
         public string _passwordUnHash { get; set; } = string.Empty;
+#pragma warning restore IDE1006 // Naming Styles
     }
 }
