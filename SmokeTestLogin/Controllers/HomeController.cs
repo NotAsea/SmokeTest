@@ -55,6 +55,7 @@ namespace SmokeTestLogin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(User user)
         {
             user._passwordUnHash = user.Password;
