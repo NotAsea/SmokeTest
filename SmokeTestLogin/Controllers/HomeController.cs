@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SmokeTestLogin.Data.Entities;
 using SmokeTestLogin.Data.Utils;
-using SmokeTestLogin.Models;
 using SmokeTestLogin.Web.Customs;
+using SmokeTestLogin.Web.Models;
 using SmokeTestLogin.Web.Services.Interfaces;
 using System.Diagnostics;
 
@@ -56,11 +56,16 @@ namespace SmokeTestLogin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(User user)
+        public async Task<IActionResult> Edit(UserInfo user)
         {
-            user._passwordUnHash = user.Password;
-            user.Password = await SecretHasher.HashAsync(user._passwordUnHash);
-            var res = await _userService.UpdateAsync(user);
+            User entity = user;
+            var oldUser = await _userService.FindUserAsync(user.Id);
+            if (oldUser!.Password != user.Password)
+            {
+                entity.Password = await SecretHasher.HashAsync(entity._passwordUnHash);
+            }
+            entity.Name = !string.IsNullOrEmpty(entity.Name) ? entity.Name : "";
+            var res = await _userService.UpdateAsync(entity);
             if (res == "OK")
             {
                 return Json(new { res });
@@ -70,6 +75,44 @@ namespace SmokeTestLogin.Controllers
                 _logger.LogError("Error: {}", res);
                 return BadRequest();
             }
+        }
+
+        public IActionResult Add()
+        {
+            return PartialView("_Add", new UserInfo());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(UserInfo user)
+        {
+            User entity = user;
+            entity.Password = await SecretHasher.HashAsync(entity._passwordUnHash);
+            entity.Name = !string.IsNullOrEmpty(entity.Name) ? entity.Name : "";
+            var res = await _userService.UpdateAsync(entity);
+            if (res == "OK")
+            {
+                return Json(new { res });
+            }
+            else
+            {
+                _logger.LogError("Error: {}", res);
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> Search(string param = "")
+        {
+            if (string.IsNullOrEmpty(param))
+                return RedirectToAction("Index");
+            var users = await _userService.FindUserByNameAsync(param);
+            return View("Index", users);
+        }
+
+        public async Task<IActionResult> Delete(long id)
+        {
+            await _userService.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }

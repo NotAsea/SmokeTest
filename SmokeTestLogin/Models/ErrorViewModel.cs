@@ -1,4 +1,4 @@
-namespace SmokeTestLogin.Models
+namespace SmokeTestLogin.Web.Models
 {
     public class ErrorViewModel
     {

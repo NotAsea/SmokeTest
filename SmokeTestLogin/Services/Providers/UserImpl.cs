@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmokeTestLogin.Data;
 using SmokeTestLogin.Data.Entities;
+using SmokeTestLogin.Web.Models;
 using SmokeTestLogin.Web.Services.Interfaces;
 
 namespace SmokeTestLogin.Web.Services.Providers
@@ -14,32 +15,49 @@ namespace SmokeTestLogin.Web.Services.Providers
             _context = context;
         }
 
-        public async Task<User?> FindUserAsync(long id)
+        public async Task DeleteAsync(long id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user is null) return;
+            _context.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync(int index, int amount)
+        public async Task<UserInfo?> FindUserAsync(long id)
+        {
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name)
+        {
+            return await _context.Users.AsNoTracking().Where(x => x.Name.Contains(name) || x.UserName.Contains(name))
+                .Select(x => (UserInfo)x)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int amount)
         {
             if (index < 0 || amount < -1 || amount == 0)
-                return await Task.FromResult(new List<User>());
-            var users = _context.Users.OrderBy(x => x.Id).Skip(index * amount);
+                return await Task.FromResult(new List<UserInfo>());
+            var users = _context.Users.AsNoTracking().OrderBy(x => x.Id).Skip(index * amount);
             if (amount > -1)
                 users = users.Take(amount);
-            return await users.ToListAsync();
+            return await users.Select(x => (UserInfo)x).ToListAsync();
         }
 
         public async Task<string> UpdateAsync(User user)
         {
             try
             {
-                _context.Update(user);
+                if (user.Id > 0)
+                    _context.Update(user);
+                else await _context.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return "OK";
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return ex.ToString();
             }
         }
     }

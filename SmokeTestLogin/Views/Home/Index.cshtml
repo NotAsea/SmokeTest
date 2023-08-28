@@ -1,5 +1,4 @@
-﻿@using SmokeTestLogin.Data.Entities
-@model IEnumerable<User>
+﻿@model IEnumerable<UserInfo>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -10,6 +9,10 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <h1 class="text-center">All User</h1>
+    <div class="d-flex justify-content-end">
+        <input type="text" placeholder="type here to search by Name, enter to search" class="form-control me-2 w-25" onkeyup="searchUser(event)" />
+        <button type="button" class="btn btn-secondary" onclick="getAddnew()">Add new User</button>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -17,7 +20,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">UserName</th>
                 <th scope="col">Password</th>
-                <th scope="col">Action</th>
+                <th scope="colgroup" colspan="2">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -28,8 +31,11 @@
                     <td>@user.Name</td>
                     <td>@user.UserName</td>
                     <td>@user.Password</td>
-                    <td>
+                    <td >
                         <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="deleteUser(@user.Id)">Delete</button>
                     </td>
                 </tr>
             }

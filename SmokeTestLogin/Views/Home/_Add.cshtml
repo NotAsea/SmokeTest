@@ -1,25 +1,16 @@
 ﻿@model UserInfo
-
-@{
-    Layout = null;
-}
-<script src="~/js/UserEdit/EditFunc.js"></script>
-
+<script src="~/js/UserEdit/AddUser.js"></script>
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit User @Model.Name</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add new User</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @class = "m-1", id = "FormEdit" }))
+            @using (Html.BeginForm("Add", "Home", FormMethod.Post, new { @class = "m-1", id = "FormAdd" }))
             {
                 @Html.AntiForgeryToken()
 
-                <div class="form-outline mb-4">
-                    @Html.LabelFor(m => m.Id, new { @class = "form-label"})
-                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control", disabled = "disabled", onclick="this.select()"})
-                </div>
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.Name, new { @class = "form-label"})
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
@@ -27,17 +18,20 @@
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.UserName, new { @class = "form-label"})
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control"})
+                    <div class="text-danger" style="display:none" id="UNErr"></div>
                 </div>
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.Password, new { @class = "form-label"})
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", value = Model.Password})
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control"})
+                    <div class="text-danger" style="display:none" id="PAErr"></div>
                 </div>
             }
             <div class="text-danger" id="errorBox" style="display:none"></div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="submitBtn()">Save changes</button>
+            <button type="button" class="btn btn-primary" onclick="submitAdd()">Save changes</button>
         </div>
     </div>
 </div>
+

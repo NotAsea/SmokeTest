@@ -17,13 +17,15 @@
 });
 function submitBtn() {
     const password = document.getElementById('Password').value;
-    const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!#\$%&\?]).{6,}$/;
-    if (!regex.test(password)) {
-        const box = document.getElementById('errorBox');
-        box.style.display = "block";
-        box.innerHTML += '<p>Password must at least 6 character, and contain at least'
-            + ' 1 digit, 1 number, 1 special character</p > ';
-        return;
+    if (!password.includes(':SHA')) {
+        const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%]).{6,}$/;
+        if (!regex.test(password)) {
+            const box = document.getElementById('errorBox');
+            box.style.display = "block";
+            box.innerHTML += '<p>Password must at least 6 character, and contain at least'
+                + ' 1 digit, 1 number, 1 special character</p > ';
+            return;
+        }
     }
     document.getElementById('FormEdit').dispatchEvent(new Event('submit'));
 }
