@@ -46,7 +46,7 @@ namespace SmokeTestLogin.Web.Controllers
         {
             _logger.LogInformation("User logout");
             await _loginService.LogoutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LoginForm");
         }
     }
 }
