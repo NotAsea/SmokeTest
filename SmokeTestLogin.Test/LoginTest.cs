@@ -1,11 +1,8 @@
-using Castle.Core.Logging;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SmokeTestLogin.Controllers;
-using SmokeTestLogin.Data.Entities;
 using SmokeTestLogin.Web.Controllers;
 using SmokeTestLogin.Web.Models;
 using SmokeTestLogin.Web.Services.Interfaces;
@@ -13,7 +10,7 @@ using SmokeTestLogin.Web.Services.Interfaces;
 namespace SmokeTestLogin.Test
 {
     [TestClass]
-    public class UnitTest
+    public class LoginTest
     {
 
         [TestMethod]
@@ -30,7 +27,7 @@ namespace SmokeTestLogin.Test
             var mockLogger = new Mock<ILogger<HomeController>>();
 
             var mockUsers = new Mock<IUserService>();
-            mockUsers.Setup(x => x.GetUsersAsync(0, -1)).ReturnsAsync(new[] { new User { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq" } });
+            mockUsers.Setup(x => x.GetUsersAsync(0, -1)).ReturnsAsync(new[] { new UserInfo { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true } });
 
             //set up controller context
             var controllerContext = new ControllerContext
