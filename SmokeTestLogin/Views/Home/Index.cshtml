@@ -4,7 +4,11 @@
 }
 
 <script src="~/js/UserEdit/DisplayEditUser.js"></script>
-
+<style>
+    .btn-status {
+        font-size: 0.65rem;
+    }
+</style>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -26,12 +30,14 @@
         <tbody>
             @foreach (var user in Model)
             {
+                var status = user.IsActivated ? "Active" : "Deactivated";
+                var statusCss = user.IsActivated ? "btn-warning text-light" : "btn-danger";
                 <tr>
                     <th scope="row">@user.Id</th>
-                    <td>@user.Name</td>
+                    <td>@user.Name <br/> <span class="btn btn-sm btn-status @statusCss">@status</span></td>
                     <td>@user.UserName</td>
                     <td>@user.Password</td>
-                    <td >
+                    <td>
                         <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
                     </td>
                     <td>

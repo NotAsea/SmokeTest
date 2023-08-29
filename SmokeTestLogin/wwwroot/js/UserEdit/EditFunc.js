@@ -26,11 +26,12 @@ function submitBtn() {
                 + ' 1 digit, 1 number, 1 special character</p > ';
             return;
         }
-        document.getElementById('FormEdit').dispatchEvent(new Event('submit'));
     }
-    else {
+    else if (!password) {
         const box = document.getElementById('errorBox');
         box.style.display = "block";
         box.innerHTML = `<p> New Password is required</p>`;
+        return;
     }
+    document.getElementById('FormEdit').dispatchEvent(new Event('submit'));
 }

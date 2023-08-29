@@ -24,13 +24,14 @@ namespace SmokeTestLogin.Web.Models
 
         [Display(Name = "UserName *")]
         public string UserName { get; set; } = string.Empty;
-        public string RawPassword { get;set; } = string.Empty;
+        public string RawPassword { get; set; } = string.Empty;
+        public bool IsActivated { get; set; }
 
         public static implicit operator UserInfo(User? user) =>
             user is not null
-            ? new() { Id = user.Id, Name = user.Name, UserName = user.UserName, Password = user.Password }
+            ? new() { Id = user.Id, Name = user.Name, UserName = user.UserName, Password = user.Password, IsActivated = user.IsActived }
             : new();
         public static implicit operator User(UserInfo info) =>
-            new() { Id = info.Id, Name = info.Name, UserName = info.UserName };
+            new() { Id = info.Id, Name = info.Name, UserName = info.UserName, IsActived = info.IsActivated };
     }
 }
