@@ -43,12 +43,9 @@ namespace SmokeTestLogin.Controllers
         public async Task<IActionResult> Edit(long id)
         {
             var user = await _userService.FindUserAsync(id);
-            if (user is null)
-            {
-                _logger.LogError("User with Id {} does not exist", id);
-                return BadRequest();
-            }
-            return PartialView("_Edit", user);
+            if (user is not null) return PartialView("_Edit", user);
+            _logger.LogError("User with Id {} does not exist", id);
+            return BadRequest();
         }
 
         [HttpPost]
@@ -60,11 +57,9 @@ namespace SmokeTestLogin.Controllers
             {
                 return Json(new { res });
             }
-            else
-            {
-                _logger.LogError("Error: {}", res);
-                return BadRequest();
-            }
+
+            _logger.LogError("Error: {}", res);
+            return BadRequest();
         }
 
         public IActionResult Add()
@@ -81,11 +76,9 @@ namespace SmokeTestLogin.Controllers
             {
                 return Json(new { res });
             }
-            else
-            {
-                _logger.LogError("Error: {}", res);
-                return BadRequest();
-            }
+
+            _logger.LogError("Error: {}", res);
+            return BadRequest();
         }
 
         public async Task<IActionResult> Search(string param = "")

@@ -28,12 +28,13 @@ namespace SmokeTestLogin.Web.Services.Providers
             {
                 var userLog = await _context.Users.FirstOrDefaultAsync(x => x.UserName == model.UserName);
                 if (userLog is null) return false;
-                else if (!await SecretHasher.VerifyAsync(model.Password, userLog.Password)) return false;
+                if (!await SecretHasher.VerifyAsync(model.Password, userLog.Password)) return false;
                 await _http.HttpContext!.AuthenticateAsync();
                 var claimUserName = new Claim(ClaimTypes.NameIdentifier, userLog.UserName);
                 var claimFullName = new Claim(ClaimTypes.Name, userLog.Name);
                 var claimId = new Claim(ClaimTypes.Sid, userLog.Id.ToString());
-                var identity = new ClaimsIdentity(new[] { claimUserName, claimFullName, claimId }, CookieAuthenticationDefaults.AuthenticationScheme);
+                var identity = new ClaimsIdentity(new[] { claimUserName, claimFullName, claimId },
+                    CookieAuthenticationDefaults.AuthenticationScheme);
                 var user = new ClaimsPrincipal(identity);
                 await _http.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
                 return true;

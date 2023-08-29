@@ -18,27 +18,28 @@
                 @Html.HiddenFor(m => m.Password)
 
                 <div class="form-outline mb-4">
-                    @Html.LabelFor(m => m.Id, new { @class = "form-label"})
-                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control", disabled = "disabled", onclick="this.select()"})
+                    @Html.LabelFor(m => m.Id, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control", disabled = "disabled", onclick = "this.select()" })
                 </div>
                 <div class="form-outline mb-4">
-                    @Html.LabelFor(m => m.Name, new { @class = "form-label"})
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+                    @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                 </div>
                 <div class="form-outline mb-4">
-                    @Html.LabelFor(m => m.UserName, new { @class = "form-label"})
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control"})
+                    @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
                 </div>
                 <div class="form-outline mb-4">
-                    @Html.LabelFor(m => m.Password, new { @class = "form-label"})
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
                     @Html.PasswordFor(m => m.RawPassword, new { @class = "form-control", value = Model.Password })
                 </div>
                 <div class="form-outline mb-4">
                     <label for="IsActivated" class="form-label">Status</label>
-                    @Html.DropDownListFor(m => m.IsActivated, new List<SelectListItem>{
-                        new SelectListItem{ Text = "Active", Value = "True"},
-                        new SelectListItem{ Text = "Deactivated", Value = "False"}
-                    }, "", new { @class = "form-control"})
+                    @Html.DropDownListFor(m => m.IsActivated, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Active", Value = "True" },
+                        new SelectListItem { Text = "Deactivated", Value = "False" }
+                    }, "", new { @class = "form-control" })
                 </div>
             }
             <div class="text-danger" id="errorBox" style="display:none"></div>

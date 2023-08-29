@@ -8,7 +8,7 @@
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json(); // or response.text() or whatever the server sends
-    }).then((body) => {
+    }).then(_ => {
         $('#editBox').modal('hide');
         window.location.href = '/Home/';
     }).catch((error) => {

@@ -12,7 +12,8 @@ namespace SmokeTestLogin.Web.Customs
             var user = context.HttpContext.User;
             if (!user.Identity!.IsAuthenticated)
             {
-                context.Result = new RedirectToActionResult("LoginForm", "Login", new { returnUrl = context.HttpContext.Request.GetEncodedUrl() });
+                context.Result = new RedirectToActionResult("LoginForm", "Login",
+                    new { returnUrl = context.HttpContext.Request.GetEncodedUrl() });
             }
         }
     }

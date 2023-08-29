@@ -20,12 +20,13 @@ namespace SmokeTestLogin.Test
             httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
             httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
-            var httpCtx = Mock.Of<HttpContext>(_ => _.Request == httpRequest.Object);
+            var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
 
             var mockLogger = new Mock<ILogger<HomeController>>();
 
             var mockUsers = new Mock<IUserService>();
-            var model = new UserInfo { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
+            var model = new UserInfo
+                { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
             mockUsers.Setup(x => x.FindUserAsync(100)).ReturnsAsync(model);
             mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
@@ -35,7 +36,8 @@ namespace SmokeTestLogin.Test
                 HttpContext = httpCtx
             };
             // setup actual Controller
-            var homeController = new HomeController(mockLogger.Object, mockUsers.Object) { ControllerContext = controllerContext };
+            var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+                { ControllerContext = controllerContext };
 
             // begin test
             var view = await homeController.Edit(100) as PartialViewResult;
@@ -43,7 +45,7 @@ namespace SmokeTestLogin.Test
             Assert.IsTrue(view!.ViewName == "_Edit");
 
             var result = await homeController.Edit(model) as JsonResult;
-            var expect = "{ res = OK }";
+            const string expect = "{ res = OK }";
             Assert.IsTrue(result!.Value != null && result.Value.ToString() == expect);
         }
 
@@ -56,12 +58,13 @@ namespace SmokeTestLogin.Test
             httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
             httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
-            var httpCtx = Mock.Of<HttpContext>(_ => _.Request == httpRequest.Object);
+            var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
 
             var mockLogger = new Mock<ILogger<HomeController>>();
 
             var mockUsers = new Mock<IUserService>();
-            var model = new UserInfo { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
+            var model = new UserInfo
+                { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
             mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
             // set up controller context
@@ -71,14 +74,15 @@ namespace SmokeTestLogin.Test
             };
 
             // setup actual Controller
-            var homeController = new HomeController(mockLogger.Object, mockUsers.Object) { ControllerContext = controllerContext };
+            var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+                { ControllerContext = controllerContext };
 
             // begin test
             var view = homeController.Add() as PartialViewResult;
             Assert.IsTrue(view!.ViewName == "_Add");
 
             var result = await homeController.Add(model) as JsonResult;
-            var expected = "{ res = OK }";
+            const string expected = "{ res = OK }";
             Assert.AreEqual(expected, result!.Value!.ToString());
         }
 
@@ -91,13 +95,14 @@ namespace SmokeTestLogin.Test
             httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
             httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
-            var httpCtx = Mock.Of<HttpContext>(_ => _.Request == httpRequest.Object);
+            var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
 
             var mockLogger = new Mock<ILogger<HomeController>>();
 
             var mockUsers = new Mock<IUserService>();
-            var model = new UserInfo { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
-            var searchStr = "blabalab";
+            var model = new UserInfo
+                { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
+            const string searchStr = "blabalab";
             mockUsers.Setup(x => x.FindUserByNameAsync(searchStr)).ReturnsAsync(new[] { model });
 
             // set up controller context
@@ -107,7 +112,8 @@ namespace SmokeTestLogin.Test
             };
 
             // setup actual Controller
-            var homeController = new HomeController(mockLogger.Object, mockUsers.Object) { ControllerContext = controllerContext };
+            var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+                { ControllerContext = controllerContext };
 
             // begin test
             var result = await homeController.Search(searchStr) as ViewResult;
@@ -123,7 +129,7 @@ namespace SmokeTestLogin.Test
             httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
             httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
-            var httpCtx = Mock.Of<HttpContext>(_ => _.Request == httpRequest.Object);
+            var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
 
             var mockLogger = new Mock<ILogger<HomeController>>();
 
@@ -137,7 +143,8 @@ namespace SmokeTestLogin.Test
             };
 
             // setup actual Controller
-            var homeController = new HomeController(mockLogger.Object, mockUsers.Object) { ControllerContext = controllerContext };
+            var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+                { ControllerContext = controllerContext };
 
             // begin test
             var result = await homeController.Delete(121) as RedirectToActionResult;

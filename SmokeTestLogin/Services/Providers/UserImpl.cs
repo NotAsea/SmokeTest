@@ -58,6 +58,7 @@ namespace SmokeTestLogin.Web.Services.Providers
                         entity.Password = await SecretHasher.HashAsync(user.RawPassword);
                     }
                     else entity.Password = user.Password;
+
                     _context.Update(entity);
                 }
                 else
@@ -66,6 +67,7 @@ namespace SmokeTestLogin.Web.Services.Providers
                     entity.Name = !string.IsNullOrEmpty(entity.Name) ? entity.Name : "";
                     await _context.AddAsync(user);
                 }
+
                 await _context.SaveChangesAsync();
                 return "OK";
             }

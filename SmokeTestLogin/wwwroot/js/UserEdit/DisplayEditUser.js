@@ -7,6 +7,7 @@
         error: () => console.error(`Request fail, id ${id} is not exist`)
     });
 }
+
 function getAddnew() {
     $.ajax({
         url: '/Home/Add',
@@ -16,12 +17,14 @@ function getAddnew() {
         error: () => console.error(`Request fail, id ${id} is not exist`)
     })
 }
-function searchUser(event) {
+
+document.getElementById('searchUser').addEventListener('keyup', (event) => {
     if (event.key !== "Enter")
         return;
     const value = event.target.value;
     window.location.href = `/Home/Search?param=${value}`;
-}
+})
+
 function deleteUser(id) {
     window.location.href = `/Home/Delete/${id}`;
 }

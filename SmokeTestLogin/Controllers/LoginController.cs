@@ -36,11 +36,9 @@ namespace SmokeTestLogin.Web.Controllers
                 _logger.LogInformation("Login success");
                 return !string.IsNullOrEmpty(model.ReturnUrl) ? Redirect(model.ReturnUrl) : RedirectToAction("Index", "Home");
             }
-            else
-            {
-                ModelState.AddModelError("login", "UserName or Password is Invalid");
-                return View(model);
-            }
+
+            ModelState.AddModelError("login", "UserName or Password is Invalid");
+            return View(model);
         }
         public async Task<IActionResult> Logout()
         {
