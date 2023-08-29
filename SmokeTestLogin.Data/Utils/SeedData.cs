@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using Bogus.DataSets;
 using SmokeTestLogin.Data.Entities;
-using System;
 
 namespace SmokeTestLogin.Data.Utils
 {
@@ -9,18 +8,28 @@ namespace SmokeTestLogin.Data.Utils
     {
         public static IEnumerable<User> Seed()
         {
+            var collectUserGenPass = new Dictionary<string, string>();
+            var users = new List<User>();
             var faker = new Faker<User>().Ignore(x => x.Id)
                 .RuleFor(x => x.Name, (f, _) => f.Person.FullName)
                 .RuleFor(x => x.UserName, (f, _) => f.Person.UserName)
-                .RuleFor(x => x.Password, (f, _) => f.Internet.PasswordEx(6, 10))
-                .RuleFor(x => x._passwordUnHash, (_, u) => u.Password);
+                .RuleFor(x => x.Password, (f, _) => f.Internet.PasswordEx(6, 10));
+
             foreach (var i in Enumerable.Range(1, 50))
             {
                 var user = faker.Generate();
                 user.Id = i;
+                collectUserGenPass.Add(user.UserName,user.Password);
                 user.Password = SecretHasher.Hash(user.Password);
-                yield return user;
+                users.Add(user);
             }
+            using var file = File.OpenWrite(@"D:\C#\SmokeTestLogin\PasswordGen.txt");
+            using var writer = new StreamWriter(file);
+            foreach(var val in collectUserGenPass)
+            {
+                writer.WriteLine($"User : {val.Key}, Pass: {val.Value}");
+            }
+            return users;
         }
     }
     public static class PassWordGenExtension

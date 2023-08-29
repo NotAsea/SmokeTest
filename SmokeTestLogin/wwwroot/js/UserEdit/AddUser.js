@@ -19,15 +19,17 @@
 function submitAdd() {
     const userName = document.getElementById('UserName').value;
     let flag = false;
+    const unErr = document.getElementById('UNErr');
+    const pnErr = document.getElementById('PAErr');
+    unErr.innerHTML = "";
+    pnErr.innerHTML = "";
     if (!userName) {
-        const unErr = document.getElementById('UNErr');
         unErr.style.display = "block";
         unErr.innerHTML = `<p> UserName is required</p>`;
         flag = true;
     }
-    const pass = document.getElementById('Password').value;
+    const pass = document.getElementById('RawPassword').value;
     if (!pass || !testPassword(pass)) {
-        const pnErr = document.getElementById('PAErr');
         pnErr.style.display = "block";
         pnErr.innerHTML = !pass ? `<p>Password is required</p>` : `<p>Password must contain at least 1 letter, 1 number, 
             1 special character (!@#$%), and length at least 6</p>`;

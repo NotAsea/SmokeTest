@@ -17,15 +17,20 @@ SQLite database is used for sake of simple, only Entity Framework Core is requir
 
 ## Build
 
- - ensure dotnet sdk at least 6 is installed, or Visual Studio 2022 with Web development workload installed
+- ensure dotnet sdk at least 6 is installed, or Visual Studio 2022 with Web development workload installed
 - prefer open terminal or bash in Linux to scaffold database (Note it's already had Seed Data)
 
  ```cmd
  :: ensure stay in solution Directory
  dotnet restore
- dotnet tool install --global dotnet-ef
+ dotnet tool install -- global dotnet-ef --version 7.0.10
  dotnet ef database update --project .\SmokeTestLogin.Data\SmokeTestLogin.Data.csproj --startup-project .\SmokeTestLogin\SmokeTestLogin.Web.csproj
- :: change \ to / if in Linux/Mac
+ :: for mac / linux
+ :: dotnet ef database update --project ./SmokeTestLogin.Data/SmokeTestLogin.Data.csproj --startup-project ./SmokeTestLogin/SmokeTestLogin.Web.csproj
  ```
  - after database has been update, simple build in visual studio or run `dotnet build`
+
+ *Password generate can be found at [here](./PasswordGen.md)*
+
+
  

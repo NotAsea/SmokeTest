@@ -15,6 +15,7 @@
             @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @class = "m-1", id = "FormEdit" }))
             {
                 @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Password)
 
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.Id, new { @class = "form-label"})
@@ -30,7 +31,7 @@
                 </div>
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.Password, new { @class = "form-label"})
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", value = Model.Password})
+                    @Html.PasswordFor(m => m.RawPassword, new { @class = "form-control", value = Model.Password })
                 </div>
             }
             <div class="text-danger" id="errorBox" style="display:none"></div>

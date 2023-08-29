@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmokeTestLogin.Data;
 using SmokeTestLogin.Data.Entities;
+using SmokeTestLogin.Data.Utils;
 using SmokeTestLogin.Web.Models;
 using SmokeTestLogin.Web.Services.Interfaces;
 
@@ -45,13 +46,26 @@ namespace SmokeTestLogin.Web.Services.Providers
             return await users.Select(x => (UserInfo)x).ToListAsync();
         }
 
-        public async Task<string> UpdateAsync(User user)
+        public async Task<string> UpdateAsync(UserInfo user)
         {
+            User entity = user;
             try
             {
                 if (user.Id > 0)
-                    _context.Update(user);
-                else await _context.AddAsync(user);
+                {
+                    if (user.RawPassword != user.Password)
+                    {
+                        entity.Password = await SecretHasher.HashAsync(user.RawPassword);
+                    }
+                    else entity.Password = user.Password;
+                    _context.Update(entity);
+                }
+                else
+                {
+                    entity.Password = await SecretHasher.HashAsync(user.RawPassword);
+                    entity.Name = !string.IsNullOrEmpty(entity.Name) ? entity.Name : "";
+                    await _context.AddAsync(user);
+                }
                 await _context.SaveChangesAsync();
                 return "OK";
             }

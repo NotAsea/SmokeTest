@@ -22,6 +22,6 @@ function searchUser(event) {
     const value = event.target.value;
     window.location.href = `/Home/Search?param=${value}`;
 }
-function deleteUser (id){
+function deleteUser(id) {
     window.location.href = `/Home/Delete/${id}`;
 }

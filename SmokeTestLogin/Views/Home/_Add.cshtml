@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.Password, new { @class = "form-label"})
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control"})
+                    @Html.PasswordFor(m => m.RawPassword, new { @class = "form-control"})
                     <div class="text-danger" style="display:none" id="PAErr"></div>
                 </div>
             }

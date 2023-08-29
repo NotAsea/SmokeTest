@@ -50,7 +50,6 @@ namespace SmokeTestLogin.Controllers
                 _logger.LogError("User with Id {} does not exist", id);
                 return BadRequest();
             }
-            ViewData["user"] = user;
             return PartialView("_Edit", user);
         }
 
@@ -58,14 +57,7 @@ namespace SmokeTestLogin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserInfo user)
         {
-            User entity = user;
-            var oldUser = await _userService.FindUserAsync(user.Id);
-            if (oldUser!.Password != user.Password)
-            {
-                entity.Password = await SecretHasher.HashAsync(entity._passwordUnHash);
-            }
-            entity.Name = !string.IsNullOrEmpty(entity.Name) ? entity.Name : "";
-            var res = await _userService.UpdateAsync(entity);
+            var res = await _userService.UpdateAsync(user);
             if (res == "OK")
             {
                 return Json(new { res });
@@ -86,10 +78,7 @@ namespace SmokeTestLogin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(UserInfo user)
         {
-            User entity = user;
-            entity.Password = await SecretHasher.HashAsync(entity._passwordUnHash);
-            entity.Name = !string.IsNullOrEmpty(entity.Name) ? entity.Name : "";
-            var res = await _userService.UpdateAsync(entity);
+            var res = await _userService.UpdateAsync(user);
             if (res == "OK")
             {
                 return Json(new { res });

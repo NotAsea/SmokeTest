@@ -16,16 +16,21 @@
     });
 });
 function submitBtn() {
-    const password = document.getElementById('Password').value;
-    if (!password.includes(':SHA')) {
+    const password = document.getElementById('RawPassword').value;
+    if (!password.includes(':SHA') && password.length > 0) {
         const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%]).{6,}$/;
         if (!regex.test(password)) {
             const box = document.getElementById('errorBox');
             box.style.display = "block";
-            box.innerHTML += '<p>Password must at least 6 character, and contain at least'
+            box.innerHTML = '<p>Password must at least 6 character, and contain at least'
                 + ' 1 digit, 1 number, 1 special character</p > ';
             return;
         }
+        document.getElementById('FormEdit').dispatchEvent(new Event('submit'));
     }
-    document.getElementById('FormEdit').dispatchEvent(new Event('submit'));
+    else {
+        const box = document.getElementById('errorBox');
+        box.style.display = "block";
+        box.innerHTML = `<p> New Password is required</p>`;
+    }
 }
