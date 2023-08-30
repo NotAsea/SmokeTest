@@ -39,6 +39,6 @@ function submitAdd() {
 }
 
 function testPassword(pass) {
-    const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%]).{6,}$/;
+    const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%&]).{6,}$/;
     return regex.test(pass);
 }

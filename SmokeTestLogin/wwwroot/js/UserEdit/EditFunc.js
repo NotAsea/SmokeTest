@@ -24,7 +24,7 @@ function submitBtn() {
     passBox.innerHTML = uBox.innerHTML = "";
     let flag = false;
     if (!password.includes(':SHA') && password.length > 0) {
-        const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%]).{6,}$/;
+        const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%&]).{6,}$/;
         if (!regex.test(password)) {
             passBox.style.display = "block";
             passBox.innerHTML = '<p>Password must at least 6 character, and contain at least'
