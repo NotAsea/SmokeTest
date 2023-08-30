@@ -9,6 +9,7 @@ This project use for example of Smoke test it contain 3 project
  |-- SmokeTestLogin.Data
  |-- SmokeTestLogin.Web
  |-- SmokeTestLogin.Test
+ |-- SmokeTestLogin.Logic
 
 ```
 
@@ -19,6 +20,7 @@ This project use for example of Smoke test it contain 3 project
 * [SmokeTestLogin.Test](./SmokeTestLogin.Test) project contain MSTest code for testing, two
   class [LoginTest](./SmokeTestLogin.Test/LoginTest.cs) for test login, logout, or authorization
   checking, [UserFunctionTest](./SmokeTestLogin.Test/UserFunctionTest.cs) for test user create, read, update, delete
+* [SmokeTestLogin.Logic](./SmokeTestLogin.Logic) for logic login and CRUD operation
 
 SQLite database is used for sake of simple, only Entity Framework Core is required, anything else is native ASP.NET
 CORE, Bogus.Faker is used for generating fake data, but can be remove
