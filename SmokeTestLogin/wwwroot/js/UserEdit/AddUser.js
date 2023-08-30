@@ -17,27 +17,27 @@
 });
 
 function submitAdd() {
-    const userName = document.getElementById('UserName').value;
+    const userName = document.getElementById('UserName').value,
+        pass = document.getElementById('RawPassword').value,
+        unErr = document.getElementById('UNErr'),
+        pnErr = document.getElementById('PAErr');
     let flag = false;
-    const unErr = document.getElementById('UNErr');
-    const pnErr = document.getElementById('PAErr');
-    unErr.innerHTML = "";
-    pnErr.innerHTML = "";
+    unErr.innerHTML = pnErr.innerHTML = "";
     if (!userName) {
         unErr.style.display = "block";
         unErr.innerHTML = `<p> UserName is required</p>`;
         flag = true;
     }
-    const pass = document.getElementById('RawPassword').value;
     if (!pass || !testPassword(pass)) {
         pnErr.style.display = "block";
         pnErr.innerHTML = !pass ? `<p>Password is required</p>` : `<p>Password must contain at least 1 letter, 1 number, 
             1 special character (!@#$%), and length at least 6</p>`;
         flag = true;
     }
-    if (flag) return;
-    else document.getElementById('FormAdd').dispatchEvent(new Event("submit"));
+    if (!flag)
+        document.getElementById('FormAdd').dispatchEvent(new Event("submit"));
 }
+
 function testPassword(pass) {
     const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#\$%]).{6,}$/;
     return regex.test(pass);

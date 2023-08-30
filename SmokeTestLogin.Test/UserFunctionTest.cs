@@ -27,7 +27,7 @@ namespace SmokeTestLogin.Test
             var mockUsers = new Mock<IUserService>();
             var model = new UserInfo
                 { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
-            mockUsers.Setup(x => x.FindUserAsync(100)).ReturnsAsync(model);
+            mockUsers.Setup(x => x.FindUserByIdAsync(100)).ReturnsAsync(model);
             mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
             // set up controller context

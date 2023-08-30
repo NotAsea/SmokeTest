@@ -6,8 +6,9 @@ namespace SmokeTestLogin.Data
 {
     public class MainContext : DbContext
     {
-        public MainContext(DbContextOptions options) : base(options) { }
-        public DbSet<User> Users { get; set; }
+        public MainContext(DbContextOptions<MainContext> options) : base(options) { }
+        public DbSet<User> Users { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

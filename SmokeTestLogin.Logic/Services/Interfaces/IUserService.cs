@@ -14,8 +14,10 @@ namespace SmokeTestLogin.Logic.Services.Interfaces
         /// <returns></returns>
         Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int amount);
 
-        Task<UserInfo?> FindUserAsync(long id);
+        Task<UserInfo?> FindUserByIdAsync(long id);
         Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name);
         Task<string> UpdateAsync(UserInfo user);
+
+        Task<IEnumerable<UserInfo>> FindUserByUserNameAsync(string userName);
     }
 }

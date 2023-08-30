@@ -28,10 +28,12 @@
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    <div class="text-danger" id="UnameErr" style="display:none"></div>
                 </div>
                 <div class="form-outline mb-4">
                     @Html.LabelFor(m => m.Password, new { @class = "form-label" })
                     @Html.PasswordFor(m => m.RawPassword, new { @class = "form-control", value = Model.Password })
+                    <div class="text-danger" id="PassErr" style="display:none"></div>
                 </div>
                 <div class="form-outline mb-4">
                     <label for="IsActivated" class="form-label">Status</label>
@@ -42,7 +44,6 @@
                     }, "", new { @class = "form-control" })
                 </div>
             }
-            <div class="text-danger" id="errorBox" style="display:none"></div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

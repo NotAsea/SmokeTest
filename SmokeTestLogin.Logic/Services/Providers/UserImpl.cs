@@ -18,23 +18,20 @@ namespace SmokeTestLogin.Logic.Services.Providers
 
         public async Task DeleteAsync(long id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await FindUserByIdAsync(id);
             if (user is null) return;
             _context.Remove(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<UserInfo?> FindUserAsync(long id)
-        {
-            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        }
+        public async Task<UserInfo?> FindUserByIdAsync(long id) =>
+            await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name)
-        {
-            return await _context.Users.AsNoTracking().Where(x => x.Name.Contains(name) || x.UserName.Contains(name))
+
+        public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name) =>
+            await _context.Users.AsNoTracking().Where(x => x.Name.Contains(name))
                 .Select(x => (UserInfo)x)
                 .ToListAsync();
-        }
 
         public async Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int amount)
         {
@@ -53,12 +50,15 @@ namespace SmokeTestLogin.Logic.Services.Providers
             {
                 if (user.Id > 0)
                 {
+                    var oldUser = await FindUserByIdAsync(user.Id);
                     if (user.RawPassword != user.Password)
                     {
                         entity.Password = await SecretHasher.HashAsync(user.RawPassword);
                     }
                     else entity.Password = user.Password;
 
+                    if (oldUser!.UserName != user.UserName && (await FindUserByUserNameAsync(entity.UserName)).Any())
+                        return "UserName has already taken";
                     _context.Update(entity);
                 }
                 else
@@ -76,5 +76,10 @@ namespace SmokeTestLogin.Logic.Services.Providers
                 return ex.ToString();
             }
         }
+
+        public async Task<IEnumerable<UserInfo>> FindUserByUserNameAsync(string userName) =>
+            await _context.Users.AsNoTracking().Where(x => x.UserName == userName)
+                .Select(x => (UserInfo)x)
+                .ToListAsync();
     }
 }
