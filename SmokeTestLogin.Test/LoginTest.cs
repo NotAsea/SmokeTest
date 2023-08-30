@@ -13,7 +13,7 @@ namespace SmokeTestLogin.Test
     public class LoginTest
     {
         [TestMethod]
-        public async Task Test_AuthorizeAtribute_Redirect_When_Not_Login()
+        public async Task Test_AuthorizeAttribute_Redirect_When_Not_Login()
         {
             // setup request
             var httpRequest = new Mock<HttpRequest>();
