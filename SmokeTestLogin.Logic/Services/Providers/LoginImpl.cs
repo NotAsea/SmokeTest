@@ -6,10 +6,10 @@ using SmokeTestLogin.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SmokeTestLogin.Data.Utils;
-using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Services.Interfaces;
 using SmokeTestLogin.Logic.Models;
 
-namespace SmokeTestLogin.Logic.Providers
+namespace SmokeTestLogin.Logic.Services.Providers
 {
     public class LoginImpl : ILoginService
     {

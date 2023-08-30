@@ -1,6 +1,6 @@
 ﻿using SmokeTestLogin.Logic.Models;
 
-namespace SmokeTestLogin.Logic.Interfaces
+namespace SmokeTestLogin.Logic.Services.Interfaces
 {
     public interface ILoginService
     {

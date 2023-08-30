@@ -2,10 +2,10 @@
 using SmokeTestLogin.Data;
 using SmokeTestLogin.Data.Entities;
 using SmokeTestLogin.Data.Utils;
-using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Services.Interfaces;
 using SmokeTestLogin.Logic.Models;
 
-namespace SmokeTestLogin.Logic.Providers
+namespace SmokeTestLogin.Logic.Services.Providers
 {
     public class UserImpl : IUserService
     {

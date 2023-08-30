@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmokeTestLogin.Web.Customs;
 using SmokeTestLogin.Web.Models;
 using System.Diagnostics;
-using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Services.Interfaces;
 using SmokeTestLogin.Logic.Models;
 
 namespace SmokeTestLogin.Controllers
