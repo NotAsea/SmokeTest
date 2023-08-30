@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace SmokeTestLogin.Data.Utils
 {
@@ -34,6 +35,7 @@ namespace SmokeTestLogin.Data.Utils
                 _algorithm
             );
         }
+
         /// <summary>
         /// Async version of <see cref="Hash(string)"/>
         /// </summary>
@@ -42,7 +44,7 @@ namespace SmokeTestLogin.Data.Utils
         public static async Task<string> HashAsync(string input) => await Task.FromResult(Hash(input));
 
         /// <summary>
-        /// Verify a hashstring and a original string is equal
+        /// Verify a hash string and a original string is equal
         /// </summary>
         /// <param name="input">original string</param>
         /// <param name="hashString">hash string to compare</param>
@@ -52,15 +54,15 @@ namespace SmokeTestLogin.Data.Utils
             var segments = hashString.Split(segmentDelimiter);
             var hash = Convert.FromHexString(segments[0]);
             var salt = Convert.FromHexString(segments[1]);
-            int iterations = int.Parse(segments[2]);
+            var iterations = int.Parse(segments[2]);
             HashAlgorithmName algorithm = new(segments[3]);
             var inputHash = Rfc2898DeriveBytes.Pbkdf2(
-                 input,
-                 salt,
-                 iterations,
-                 algorithm,
-                 hash.Length
-             );
+                input,
+                salt,
+                iterations,
+                algorithm,
+                hash.Length
+            );
             return CryptographicOperations.FixedTimeEquals(inputHash, hash);
         }
 
@@ -70,6 +72,7 @@ namespace SmokeTestLogin.Data.Utils
         /// <param name="input"></param>
         /// <param name="hashString"></param>
         /// <returns></returns>
-        public static async Task<bool> VerifyAsync(string input, string hashString) => await Task.FromResult(Verify(input, hashString));
+        public static async Task<bool> VerifyAsync(string input, string hashString) =>
+            await Task.FromResult(Verify(input, hashString));
     }
 }

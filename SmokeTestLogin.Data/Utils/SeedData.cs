@@ -6,34 +6,37 @@ namespace SmokeTestLogin.Data.Utils
 {
     public static class SeedData
     {
-        // Uncomment this below when you want to reset database, note, you must replace the correct out path to File.OpenWrite to see password it generate
-        // public static IEnumerable<User> Seed()
-        // {
-        //     var collectUserGenPass = new Dictionary<string, string>();
-        //     var users = new List<User>();
-        //     var faker = new Faker<User>().Ignore(x => x.Id)
-        //         .RuleFor(x => x.Name, (f, _) => f.Person.FullName)
-        //         .RuleFor(x => x.UserName, (f, _) => f.Person.UserName)
-        //         .RuleFor(x => x.Password, (f, _) => f.Internet.PasswordEx(6, 10));
-        //
-        //     foreach (var i in Enumerable.Range(1, 50))
-        //     {
-        //         var user = faker.Generate();
-        //         user.Id = i;
-        //         collectUserGenPass.Add(user.UserName, user.Password);
-        //         user.Password = SecretHasher.Hash(user.Password);
-        //         users.Add(user);
-        //     }
-        //
-        //     using var file = File.OpenWrite(@"..\..\PasswordGen.txt");
-        //     using var writer = new StreamWriter(file);
-        //     foreach (var val in collectUserGenPass)
-        //     {
-        //         writer.WriteLine($"User : {val.Key}, Pass: {val.Value}");
-        //     }
-        //
-        //     return users;
-        // }
+        /// <summary>
+        /// <b>if you accidentally delete Local.db file or want reset database, be sure change path at File.OpenWrite </b>
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<User> Seed()
+        {
+            var collectUserGenPass = new Dictionary<string, string>();
+            var users = new List<User>();
+            var faker = new Faker<User>().Ignore(x => x.Id)
+                .RuleFor(x => x.Name, (f, _) => f.Person.FullName)
+                .RuleFor(x => x.UserName, (f, _) => f.Person.UserName)
+                .RuleFor(x => x.Password, (f, _) => f.Internet.PasswordEx(6, 10));
+
+            foreach (var i in Enumerable.Range(1, 50))
+            {
+                var user = faker.Generate();
+                user.Id = i;
+                collectUserGenPass.Add(user.UserName, user.Password);
+                user.Password = SecretHasher.Hash(user.Password);
+                users.Add(user);
+            }
+
+            using var file = File.OpenWrite(@"D:\C#\SmokeTestLogin\PasswordGen.txt");
+            using var writer = new StreamWriter(file);
+            foreach (var val in collectUserGenPass)
+            {
+                writer.WriteLine($"User : {val.Key}, Pass: {val.Value}");
+            }
+
+            return users;
+        }
     }
 
     public static class PassWordGenExtension
