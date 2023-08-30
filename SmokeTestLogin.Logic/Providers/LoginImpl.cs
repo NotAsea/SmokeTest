@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using SmokeTestLogin.Web.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using SmokeTestLogin.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SmokeTestLogin.Data.Utils;
-using SmokeTestLogin.Web.Services.Interfaces;
+using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Models;
 
-namespace SmokeTestLogin.Web.Services.Providers
+namespace SmokeTestLogin.Logic.Providers
 {
     public class LoginImpl : ILoginService
     {

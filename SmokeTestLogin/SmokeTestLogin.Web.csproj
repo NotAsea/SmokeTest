@@ -15,6 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmokeTestLogin.Data\SmokeTestLogin.Data.csproj" />
+    <ProjectReference Include="..\SmokeTestLogin.Logic\SmokeTestLogin.Logic.csproj" />
   </ItemGroup>
+
 
 </Project>

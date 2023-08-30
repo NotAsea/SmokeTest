@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SmokeTestLogin.Controllers;
-using SmokeTestLogin.Web.Models;
-using SmokeTestLogin.Web.Services.Interfaces;
+using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Models;
 
 namespace SmokeTestLogin.Test
 {

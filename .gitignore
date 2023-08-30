@@ -366,5 +366,5 @@ FodyWeavers.xsd
 *.db-shm
 *.db-wal
 /PasswordGen.txt
-/.idea/.idea.SmokeTestLogin/.idea
 /identifier.sqlite
+/.idea/

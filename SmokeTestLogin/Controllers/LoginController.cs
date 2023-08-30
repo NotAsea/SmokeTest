@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmokeTestLogin.Web.Models;
-using SmokeTestLogin.Web.Services.Interfaces;
+using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Models;
 
 namespace SmokeTestLogin.Web.Controllers
 {

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SmokeTestLogin.Data;
-using SmokeTestLogin.Web.Services.Interfaces;
-using SmokeTestLogin.Web.Services.Providers;
+using SmokeTestLogin.Logic.Interfaces;
+using SmokeTestLogin.Logic.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 
