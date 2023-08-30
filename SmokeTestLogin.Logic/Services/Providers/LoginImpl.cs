@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using SmokeTestLogin.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SmokeTestLogin.Data.Entities;
 using SmokeTestLogin.Data.Utils;
 using SmokeTestLogin.Logic.Services.Interfaces;
 using SmokeTestLogin.Logic.Models;
@@ -28,17 +29,12 @@ namespace SmokeTestLogin.Logic.Services.Providers
         {
             try
             {
-                var userLog = await _context.Users.FirstOrDefaultAsync(x => x.UserName == model.UserName);
-                if (userLog is null) return false;
-                if (!await SecretHasher.VerifyAsync(model.Password, userLog.Password)) return false;
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == model.UserName);
+                if (user is null) return false;
+                if (!await SecretHasher.VerifyAsync(model.Password, user.Password)) return false;
                 await _http.HttpContext!.AuthenticateAsync();
-                var claimUserName = new Claim(ClaimTypes.NameIdentifier, userLog.UserName);
-                var claimFullName = new Claim(ClaimTypes.Name, userLog.Name);
-                var claimId = new Claim(ClaimTypes.Sid, userLog.Id.ToString());
-                var identity = new ClaimsIdentity(new[] { claimUserName, claimFullName, claimId },
-                    CookieAuthenticationDefaults.AuthenticationScheme);
-                var user = new ClaimsPrincipal(identity);
-                await _http.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
+                await _http.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    createUserClaims(user));
                 return true;
             }
             catch (Exception ex)
@@ -51,6 +47,16 @@ namespace SmokeTestLogin.Logic.Services.Providers
         public async Task LogoutAsync()
         {
             await _http.HttpContext!.SignOutAsync();
+        }
+
+        private static ClaimsPrincipal createUserClaims(User user)
+        {
+            var claimUserName = new Claim(ClaimTypes.NameIdentifier, user.UserName);
+            var claimFullName = new Claim(ClaimTypes.Name, user.Name);
+            var claimId = new Claim(ClaimTypes.Sid, user.Id.ToString());
+            var identity = new ClaimsIdentity(new[] { claimUserName, claimFullName, claimId },
+                CookieAuthenticationDefaults.AuthenticationScheme);
+            return new ClaimsPrincipal(identity);
         }
     }
 }
