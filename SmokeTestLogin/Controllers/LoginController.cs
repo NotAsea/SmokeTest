@@ -1,50 +1,49 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmokeTestLogin.Logic.Services.Interfaces;
 using SmokeTestLogin.Logic.Models;
+using SmokeTestLogin.Logic.Services.Interfaces;
 
-namespace SmokeTestLogin.Web.Controllers
+namespace SmokeTestLogin.Web.Controllers;
+
+[AllowAnonymous]
+public class LoginController : Controller
 {
-    [AllowAnonymous]
-    public class LoginController : Controller
+    private readonly ILoginService _loginService;
+    private readonly ILogger<LoginController> _logger;
+
+    public LoginController(ILoginService loginService, ILogger<LoginController> logger)
     {
-        private readonly ILoginService _loginService;
-        private readonly ILogger<LoginController> _logger;
+        _loginService = loginService;
+        _logger = logger;
+    }
 
-        public LoginController(ILoginService loginService, ILogger<LoginController> logger)
+    public IActionResult LoginForm(string? returnUrl)
+    {
+        return View(new UserModel { ReturnUrl = returnUrl ?? "" });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> LoginForm(UserModel model)
+    {
+        if (!ModelState.IsValid)
         {
-            _loginService = loginService;
-            _logger = logger;
-        }
-
-        public IActionResult LoginForm(string? returnUrl)
-        {
-            return View(new UserModel { ReturnUrl = returnUrl ?? "" });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginForm(UserModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (await _loginService.LoginAsync(model))
-            {
-                _logger.LogInformation("Login success");
-                return !string.IsNullOrEmpty(model.ReturnUrl) ? Redirect(model.ReturnUrl) : RedirectToAction("Index", "Home");
-            }
-
-            ModelState.AddModelError("login", "UserName or Password is Invalid");
             return View(model);
         }
-        public async Task<IActionResult> Logout()
+
+        if (await _loginService.LoginAsync(model))
         {
-            _logger.LogInformation("User logout");
-            await _loginService.LogoutAsync();
-            return RedirectToAction("LoginForm");
+            _logger.LogInformation("Login success");
+            return !string.IsNullOrEmpty(model.ReturnUrl) ? Redirect(model.ReturnUrl) : RedirectToAction("Index", "Home");
         }
+
+        ModelState.AddModelError("login", "UserName or Password is Invalid");
+        return View(model);
+    }
+    public async Task<IActionResult> Logout()
+    {
+        _logger.LogInformation("User logout");
+        await _loginService.LogoutAsync();
+        return RedirectToAction("LoginForm");
     }
 }

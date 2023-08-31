@@ -1,10 +1,9 @@
 ﻿using SmokeTestLogin.Logic.Models;
 
-namespace SmokeTestLogin.Logic.Services.Interfaces
+namespace SmokeTestLogin.Logic.Services.Interfaces;
+
+public interface ILoginService
 {
-    public interface ILoginService
-    {
-        Task<bool> LoginAsync(UserModel model);
-        Task LogoutAsync();
-    }
+    Task<bool> LoginAsync(UserModel model);
+    Task LogoutAsync();
 }

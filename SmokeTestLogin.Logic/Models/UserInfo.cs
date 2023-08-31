@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SmokeTestLogin.Data.Entities;
+﻿using SmokeTestLogin.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmokeTestLogin.Logic.Models;
 
@@ -17,11 +17,20 @@ public record UserInfo
         user is not null
             ? new UserInfo
             {
-                Id = user.Id, Name = user.Name, UserName = user.UserName, Password = user.Password,
+                Id = user.Id,
+                Name = user.Name,
+                UserName = user.UserName,
+                Password = user.Password,
                 IsActivated = user.IsActived
             }
             : new UserInfo();
 
     public static implicit operator User(UserInfo info) =>
-        new() { Id = info.Id, Name = info.Name, UserName = info.UserName, IsActived = info.IsActivated };
+        new()
+        {
+            Id = info.Id,
+            Name = info.Name,
+            UserName = info.UserName,
+            IsActived = info.IsActivated
+        };
 }

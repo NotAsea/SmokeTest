@@ -11,13 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Data", "Smok
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F860D3D2-FFE3-46E5-B4D7-9C51BB3FC702}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		PasswordGen.md = PasswordGen.md
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeTestLogin.Logic", "SmokeTestLogin.Logic\SmokeTestLogin.Logic.csproj", "{D853B96D-D49D-43B0-8407-EE70DE0DA0AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Logic", "SmokeTestLogin.Logic\SmokeTestLogin.Logic.csproj", "{D853B96D-D49D-43B0-8407-EE70DE0DA0AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
