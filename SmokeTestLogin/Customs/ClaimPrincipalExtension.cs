@@ -1,15 +1,15 @@
-﻿using SmokeTestLogin.Data.Entities;
+﻿using SmokeTestLogin.Logic.Models;
 using System.Security.Claims;
 
 namespace SmokeTestLogin.Web.Customs;
 
 public static class ClaimPrincipalExtension
 {
-    public static User GetUser(this ClaimsPrincipal principal)
+    public static UserInfo GetUser(this ClaimsPrincipal principal)
     {
         if (!principal.Identity!.IsAuthenticated)
             throw new InvalidOperationException("User must login");
-        return new User
+        return new()
         {
             Id = long.Parse(principal.FindFirstValue(ClaimTypes.Sid)),
             Name = principal.FindFirstValue(ClaimTypes.Name),

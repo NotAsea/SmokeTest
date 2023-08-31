@@ -34,7 +34,7 @@ public class LoginImpl : ILoginService
             if (!await SecretHasher.VerifyAsync(model.Password, user.Password)) return false;
             await _http.HttpContext!.AuthenticateAsync();
             await _http.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                createUserClaims(user));
+                CreateUserClaims(user));
             return true;
         }
         catch (Exception ex)
@@ -49,7 +49,7 @@ public class LoginImpl : ILoginService
         await _http.HttpContext!.SignOutAsync();
     }
 
-    private static ClaimsPrincipal createUserClaims(User user)
+    private static ClaimsPrincipal CreateUserClaims(User user)
     {
         var claimUserName = new Claim(ClaimTypes.NameIdentifier, user.UserName);
         var claimFullName = new Claim(ClaimTypes.Name, user.Name);
