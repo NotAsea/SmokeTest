@@ -11,25 +11,23 @@
         <th scope="col">Name</th>
         <th scope="col">UserName</th>
         <th scope="col">Password</th>
-        <th scope="colgroup" colspan="2">Action</th>
+        <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var user in Model.Users)
     {
         var status = user.IsActivated ? "Active" : "Deactivated";
-        var statusCss = user.IsActivated ? "btn-warning text-light" : "btn-danger";
+        var statusCss = user.IsActivated ? "bg-warning" : "bg-danger";
         <tr>
-            <th scope="row">@user.Id</th>
-            <td>
-                @user.Name <br/> <span class="btn btn-sm btn-status @statusCss">@status</span>
+            <th class="border-end border-2" scope="row">@user.Id</th>
+            <td class="border-end border-2">
+                @user.Name <br/> <span class="badge @statusCss">@status</span>
             </td>
-            <td>@user.UserName</td>
-            <td>@user.Password</td>
-            <td>
+            <td class="border-end border-2">@user.UserName</td>
+            <td class="border-end border-2">@user.Password</td>
+            <td class="border-end border-2">
                 <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
-            </td>
-            <td>
                 <button class="btn btn-primary" onclick="deleteUser(@user.Id)">Delete</button>
             </td>
         </tr>
@@ -38,28 +36,25 @@
 </table>
 @if (Model.PageCount > 1)
 {
-    <div class="d-flex justify-content-end">
-        <nav>
-            <ul class="pagination">
-                <li class="page-item">
-                    <button type="button" class="page-link" onclick="loadTable(-1)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </button>
+    <nav>
+        <ul class="pagination justify-content-end">
+            <li class="page-item">
+                <button type="button" class="page-link" onclick="loadTable(-1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+            @for (var i = 1; i <= Model.PageCount; i++)
+            {
+                <li class="page-item @(Model.CurrentIndex == i ? "active" : "")" tag-index="@i">
+                    <button type="button" class="page-link" onclick="loadTable(@i)">@i</button>
                 </li>
-                @for (var i = 1; i <= Model.PageCount; i++)
-                {
-                    <li class="page-item @(Model.CurrentIndex == i ? "active" : "")" tag-index="@i">
-                        <button type="button" class="page-link" onclick="loadTable(@i)">@i</button>
-                    </li>
-                }
-                <li class="page-item">
-                    <button type="button" class="page-link" onclick="loadTable(-2)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </button>
-                </li>
-
-            </ul>
-        </nav>
-    </div>
+            }
+            <li class="page-item">
+                <button type="button" class="page-link" onclick="loadTable(-2)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
     <div style="display: none" id="pageLimit" value="@Model.PageCount"></div>
 }

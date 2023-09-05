@@ -28,22 +28,21 @@ public class LoginController : Controller
     {
         if (!ModelState.IsValid)
         {
-            var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
-                .ToArray();
             return View(model);
         }
 
         if (await _loginService.LoginAsync(model))
         {
             _logger.LogInformation("Login success");
-            return !string.IsNullOrEmpty(model.ReturnUrl) ? Redirect(model.ReturnUrl) : RedirectToAction("Index", "Home");
+            return !string.IsNullOrEmpty(model.ReturnUrl)
+                ? Redirect(model.ReturnUrl)
+                : RedirectToAction("Index", "Home");
         }
 
         ModelState.AddModelError("login", "UserName or Password is Invalid");
         return View(model);
     }
+
     public async Task<IActionResult> Logout()
     {
         _logger.LogInformation("User logout");
