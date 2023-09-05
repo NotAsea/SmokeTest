@@ -28,19 +28,30 @@ public class UserImpl : IUserService
         await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
 
-    public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name) =>
-        await _context.Users.AsNoTracking().Where(x => x.Name.Contains(name))
+    public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name) => await _context.Users.AsNoTracking()
+        .Where(x => x.Name.Contains(name))
+        .Select(x => (UserInfo)x)
+        .ToListAsync();
+
+    public async Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int size, string name = "")
+    {
+        if (!string.IsNullOrEmpty(name))
+        {
+            return await _context.Users.AsNoTracking()
+                .Where(x => x.Name.Contains(name) || x.UserName.Contains(name))
+                .OrderBy(x => x.Id)
+                .Skip((index - 1) * size)
+                .Take(size)
+                .Select(x => (UserInfo)x)
+                .ToListAsync();
+        }
+
+        return await _context.Users.AsNoTracking()
+            .OrderBy(x => x.Id)
+            .Skip((index - 1) * size)
+            .Take(size)
             .Select(x => (UserInfo)x)
             .ToListAsync();
-
-    public async Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int amount)
-    {
-        if (index < 0 || amount < -1 || amount == 0)
-            return await Task.FromResult(new List<UserInfo>());
-        var users = _context.Users.AsNoTracking().OrderBy(x => x.Id).Skip(index * amount);
-        if (amount > -1)
-            users = users.Take(amount);
-        return await users.Select(x => (UserInfo)x).ToListAsync();
     }
 
     public async Task<string> UpdateAsync(UserInfo user)
@@ -81,4 +92,6 @@ public class UserImpl : IUserService
         await _context.Users.AsNoTracking().Where(x => x.UserName == userName)
             .Select(x => (UserInfo)x)
             .ToListAsync();
+
+    public async Task<int> CountUsers() => await _context.Users.AsNoTracking().CountAsync();
 }

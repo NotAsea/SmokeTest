@@ -26,7 +26,7 @@ public class UserFunctionTest
 
         var mockUsers = new Mock<IUserService>();
         var model = new UserInfo
-        { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
+            { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
         mockUsers.Setup(x => x.FindUserByIdAsync(100)).ReturnsAsync(model);
         mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
@@ -37,7 +37,7 @@ public class UserFunctionTest
         };
         // setup actual Controller
         var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
-        { ControllerContext = controllerContext };
+            { ControllerContext = controllerContext };
 
         // begin test
         var view = await homeController.Edit(100) as PartialViewResult;
@@ -64,7 +64,7 @@ public class UserFunctionTest
 
         var mockUsers = new Mock<IUserService>();
         var model = new UserInfo
-        { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
+            { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
         mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
         // set up controller context
@@ -75,7 +75,7 @@ public class UserFunctionTest
 
         // setup actual Controller
         var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
-        { ControllerContext = controllerContext };
+            { ControllerContext = controllerContext };
 
         // begin test
         var view = homeController.Add() as PartialViewResult;
@@ -101,7 +101,7 @@ public class UserFunctionTest
 
         var mockUsers = new Mock<IUserService>();
         var model = new UserInfo
-        { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
+            { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true };
         const string searchStr = "blabalab";
         mockUsers.Setup(x => x.FindUserByNameAsync(searchStr)).ReturnsAsync(new[] { model });
 
@@ -113,11 +113,11 @@ public class UserFunctionTest
 
         // setup actual Controller
         var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
-        { ControllerContext = controllerContext };
+            { ControllerContext = controllerContext };
 
         // begin test
-        var result = await homeController.Search(searchStr) as ViewResult;
-        Assert.IsTrue(result!.ViewName == "Index");
+        var result = await homeController.GetTable(0, 15, searchStr) as PartialViewResult;
+        Assert.IsTrue(result!.ViewName == "_UserList");
     }
 
     [TestMethod]
@@ -144,7 +144,7 @@ public class UserFunctionTest
 
         // setup actual Controller
         var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
-        { ControllerContext = controllerContext };
+            { ControllerContext = controllerContext };
 
         // begin test
         var result = await homeController.Delete(121) as RedirectToActionResult;

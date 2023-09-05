@@ -20,17 +20,14 @@ public class HomeController : Controller
         _userService = userService;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         ViewBag.Home = "true";
-        _logger.LogInformation("Enter Home");
-        var user = await _userService.GetUsersAsync(0, -1);
-        return View(user);
+        return View();
     }
 
     public IActionResult Privacy()
     {
-        _logger.LogInformation("Enter Privacy");
         return View();
     }
 
@@ -46,7 +43,7 @@ public class HomeController : Controller
         var user = await _userService.FindUserByIdAsync(id);
         if (user is not null) return PartialView("_Edit", user);
         _logger.LogError("User with Id {} does not exist", id);
-        return BadRequest();
+        return NotFound();
     }
 
     [HttpPost]
@@ -82,18 +79,16 @@ public class HomeController : Controller
         return BadRequest();
     }
 
-    public async Task<IActionResult> Search(string param = "")
-    {
-        if (string.IsNullOrEmpty(param))
-            return RedirectToAction("Index");
-        var users = await _userService.FindUserByNameAsync(param);
-        var userByUserName = await _userService.FindUserByUserNameAsync(param);
-        return View("Index", users.Concat(userByUserName));
-    }
-
     public async Task<IActionResult> Delete(long id)
     {
         await _userService.DeleteAsync(id);
         return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> GetTable(int index, int size, string name = "")
+    {
+        var result = await _userService.GetUsersAsync(index, size, name);
+        var count = await _userService.CountUsers();
+        return PartialView("_UserList", new UserList(result.ToList(), index, count));
     }
 }

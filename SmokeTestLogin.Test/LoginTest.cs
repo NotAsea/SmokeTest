@@ -13,7 +13,7 @@ namespace SmokeTestLogin.Test;
 public class LoginTest
 {
     [TestMethod]
-    public async Task Test_AuthorizeAttribute_Redirect_When_Not_Login()
+    public void Test_AuthorizeAttribute_Redirect_When_Not_Login()
     {
         // setup request
         var httpRequest = new Mock<HttpRequest>();
@@ -26,7 +26,7 @@ public class LoginTest
         var mockLogger = new Mock<ILogger<HomeController>>();
 
         var mockUsers = new Mock<IUserService>();
-        mockUsers.Setup(x => x.GetUsersAsync(0, -1)).ReturnsAsync(new[]
+        mockUsers.Setup(x => x.GetUsersAsync(0, -1,"")).ReturnsAsync(new[]
         {
             new UserInfo { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true }
         });
@@ -42,7 +42,7 @@ public class LoginTest
 
         // now test
         const string expected = "Index"; // expect viewName Index in Home
-        var actual = await homeController.Index() as ViewResult;
+        var actual = homeController.Index() as ViewResult;
         Assert.AreNotEqual(expected,
             actual!.ViewName); // Got other view as Authorize attribute redirect result, wolking
     }

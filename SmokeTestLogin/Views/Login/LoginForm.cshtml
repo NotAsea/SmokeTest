@@ -1,5 +1,4 @@
-﻿@using SmokeTestLogin.Web.Models
-@model UserModel
+﻿@model UserModel
 
 @{
     ViewData["Title"] = "Login Page";
@@ -37,9 +36,9 @@
                 @Html.ValidationMessage("login", new { @class = "text-warning" })
 
                 <!-- Submit button -->
-                <center>
+                <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary btn-block m-3">Sign in</button>
-                </center>
+                </div>
             }
         </div>
     </div>

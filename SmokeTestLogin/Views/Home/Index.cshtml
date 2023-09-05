@@ -1,5 +1,4 @@
-﻿@model IEnumerable<UserInfo>
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -17,38 +16,12 @@
         <input type="text" placeholder="type here to search by Name, enter to search" class="form-control me-2 w-25" id="searchUser"/>
         <button type="button" class="btn btn-secondary" onclick="getAddnew()">Add new User</button>
     </div>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">UserName</th>
-            <th scope="col">Password</th>
-            <th scope="colgroup" colspan="2">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var user in Model)
-        {
-            var status = user.IsActivated ? "Active" : "Deactivated";
-            var statusCss = user.IsActivated ? "btn-warning text-light" : "btn-danger";
-            <tr>
-                <th scope="row">@user.Id</th>
-                <td>
-                    @user.Name <br/> <span class="btn btn-sm btn-status @statusCss">@status</span>
-                </td>
-                <td>@user.UserName</td>
-                <td>@user.Password</td>
-                <td>
-                    <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
-                </td>
-                <td>
-                    <button class="btn btn-primary" onclick="deleteUser(@user.Id)">Delete</button>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="container-fluid" id="UserTable"></div>
 </div>
 <div class="modal fade" id="editBox" tabindex="-1" aria-labelledby="editBox" aria-hidden="true"></div>
 <script src="~/js/UserEdit/DisplayEditUser.js"></script>
+<script>
+$(document).ready(() => {
+    window.onload = () =>  loadTable();
+});
+</script>
