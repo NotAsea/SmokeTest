@@ -54,7 +54,8 @@ public class LoginImpl : ILoginService
         var claimUserName = new Claim(ClaimTypes.NameIdentifier, user.UserName);
         var claimFullName = new Claim(ClaimTypes.Name, user.Name);
         var claimId = new Claim(ClaimTypes.Sid, user.Id.ToString());
-        var identity = new ClaimsIdentity(new[] { claimUserName, claimFullName, claimId },
+        var claimRole = new Claim(ClaimTypes.Role, "admin");
+        var identity = new ClaimsIdentity(new[] { claimUserName, claimFullName, claimId, claimRole },
             CookieAuthenticationDefaults.AuthenticationScheme);
         return new ClaimsPrincipal(identity);
     }
