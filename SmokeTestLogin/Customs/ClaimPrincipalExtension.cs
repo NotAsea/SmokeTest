@@ -9,7 +9,7 @@ public static class ClaimPrincipalExtension
     {
         if (!principal.Identity!.IsAuthenticated)
             throw new InvalidOperationException("User must login");
-        return new()
+        return new UserInfo
         {
             Id = long.Parse(principal.FindFirstValue(ClaimTypes.Sid)),
             Name = principal.FindFirstValue(ClaimTypes.Name),
