@@ -18,7 +18,9 @@ public class LoginTest
         // setup request
         var httpRequest = new Mock<HttpRequest>();
         httpRequest.Setup(x => x.Scheme).Returns("http");
-        httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
+        httpRequest
+            .Setup(x => x.Host)
+            .Returns(HostString.FromUriComponent("https://localhost:7296"));
         httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
         var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
@@ -26,25 +28,34 @@ public class LoginTest
         var mockLogger = new Mock<ILogger<HomeController>>();
 
         var mockUsers = new Mock<IUserService>();
-        mockUsers.Setup(x => x.GetUsersAsync(0, -1,"")).ReturnsAsync(new[]
-        {
-            new UserInfo { Id = 1, Name = "Asdsa", Password = "asdasasdfas", UserName = "qqq", IsActivated = true }
-        });
+        mockUsers
+            .Setup(x => x.GetUsersAsync(0, -1, ""))
+            .ReturnsAsync(
+                new[]
+                {
+                    new UserInfo
+                    {
+                        Id = 1,
+                        Name = "Asdsa",
+                        Password = "asdasasdfas",
+                        UserName = "qqq",
+                        IsActivated = true
+                    }
+                }
+            );
 
         // set up controller context
-        var controllerContext = new ControllerContext
-        {
-            HttpContext = httpCtx
-        };
+        var controllerContext = new ControllerContext { HttpContext = httpCtx };
         // setup actual Controller
         var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
-        { ControllerContext = controllerContext };
+        {
+            ControllerContext = controllerContext
+        };
 
         // now test
         const string expected = "Index"; // expect viewName Index in Home
         var actual = homeController.Index() as ViewResult;
-        Assert.AreNotEqual(expected,
-            actual!.ViewName); // Got other view as Authorize attribute redirect result, wolking
+        Assert.AreNotEqual(expected, actual!.ViewName); // Got other view as Authorize attribute redirect result, wolking
     }
 
     [TestMethod]
@@ -53,7 +64,9 @@ public class LoginTest
         // setup request
         var httpRequest = new Mock<HttpRequest>();
         httpRequest.Setup(x => x.Scheme).Returns("http");
-        httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
+        httpRequest
+            .Setup(x => x.Host)
+            .Returns(HostString.FromUriComponent("https://localhost:7296"));
         httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Login"));
 
         var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
@@ -65,13 +78,12 @@ public class LoginTest
         loginService.Setup(x => x.LoginAsync(model)).Returns(Task.FromResult(true));
 
         // set up controller context
-        var controllerContext = new ControllerContext
-        {
-            HttpContext = httpCtx
-        };
+        var controllerContext = new ControllerContext { HttpContext = httpCtx };
         // setup actual Controller
         var loginController = new LoginController(loginService.Object, mockLogger.Object)
-        { ControllerContext = controllerContext };
+        {
+            ControllerContext = controllerContext
+        };
 
         // begin test
         var response = await loginController.LoginForm(model) as RedirectToActionResult;
@@ -85,7 +97,9 @@ public class LoginTest
         // setup request
         var httpRequest = new Mock<HttpRequest>();
         httpRequest.Setup(x => x.Scheme).Returns("http");
-        httpRequest.Setup(x => x.Host).Returns(HostString.FromUriComponent("https://localhost:7296"));
+        httpRequest
+            .Setup(x => x.Host)
+            .Returns(HostString.FromUriComponent("https://localhost:7296"));
         httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Login"));
 
         var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
@@ -96,13 +110,12 @@ public class LoginTest
         loginService.Setup(x => x.LogoutAsync()).Returns(Task.CompletedTask);
 
         // set up controller context
-        var controllerContext = new ControllerContext
-        {
-            HttpContext = httpCtx
-        };
+        var controllerContext = new ControllerContext { HttpContext = httpCtx };
         // setup actual Controller
         var loginController = new LoginController(loginService.Object, mockLogger.Object)
-        { ControllerContext = controllerContext };
+        {
+            ControllerContext = controllerContext
+        };
 
         // begin test
         var result = await loginController.Logout() as RedirectToActionResult;

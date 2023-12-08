@@ -17,8 +17,13 @@ public class UserList
         TotalCount = totalCount;
     }
 
-    public UserList(IList<UserInfo> users, int currentIndex, int totalCount, int? userPerPage = null) : this(users,
-        totalCount)
+    public UserList(
+        IList<UserInfo> users,
+        int currentIndex,
+        int totalCount,
+        int? userPerPage = null
+    )
+        : this(users, totalCount)
     {
         CurrentIndex = currentIndex;
         UserPerPage = userPerPage ?? 15;

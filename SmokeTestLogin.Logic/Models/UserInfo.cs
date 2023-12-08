@@ -1,5 +1,5 @@
-﻿using SmokeTestLogin.Data.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using SmokeTestLogin.Data.Entities;
 
 namespace SmokeTestLogin.Logic.Models;
 
@@ -7,9 +7,12 @@ public record UserInfo
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    [Display(Name = "Password *")] public string Password { get; set; } = string.Empty;
 
-    [Display(Name = "UserName *")] public string UserName { get; set; } = string.Empty;
+    [Display(Name = "Password *")]
+    public string Password { get; set; } = string.Empty;
+
+    [Display(Name = "UserName *")]
+    public string UserName { get; set; } = string.Empty;
     public string RawPassword { get; set; } = string.Empty;
     public bool IsActivated { get; set; }
 

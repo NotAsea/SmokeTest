@@ -5,6 +5,7 @@ public class User
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
+
     /// <summary>
     /// this is our real field to store Hash Password, the Hash is used can be see at <see cref="Utils.SecretHasher.HashAsync(string)"/>
     /// </summary>

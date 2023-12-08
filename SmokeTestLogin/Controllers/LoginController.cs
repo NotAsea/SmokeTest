@@ -6,17 +6,9 @@ using SmokeTestLogin.Logic.Services.Interfaces;
 namespace SmokeTestLogin.Web.Controllers;
 
 [AllowAnonymous]
-public class LoginController : Controller
+public class LoginController(ILoginService loginService, ILogger<LoginController> logger)
+    : Controller
 {
-    private readonly ILoginService _loginService;
-    private readonly ILogger<LoginController> _logger;
-
-    public LoginController(ILoginService loginService, ILogger<LoginController> logger)
-    {
-        _loginService = loginService;
-        _logger = logger;
-    }
-
     public IActionResult LoginForm(string? returnUrl)
     {
         return View(new UserModel { ReturnUrl = returnUrl ?? "" });
@@ -31,9 +23,9 @@ public class LoginController : Controller
             return View(model);
         }
 
-        if (await _loginService.LoginAsync(model))
+        if (await loginService.LoginAsync(model))
         {
-            _logger.LogInformation("Login success");
+            logger.LogInformation("Login success");
             return !string.IsNullOrEmpty(model.ReturnUrl)
                 ? Redirect(model.ReturnUrl)
                 : RedirectToAction("Index", "Home");
@@ -45,8 +37,8 @@ public class LoginController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        _logger.LogInformation("User logout");
-        await _loginService.LogoutAsync();
+        logger.LogInformation("User logout");
+        await loginService.LogoutAsync();
         return RedirectToAction("LoginForm");
     }
 }

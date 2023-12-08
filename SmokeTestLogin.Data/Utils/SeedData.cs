@@ -14,7 +14,8 @@ public static class SeedData
     {
         var collectUserGenPass = new Dictionary<string, string>();
         var users = new List<User>();
-        var faker = new Faker<User>().Ignore(x => x.Id)
+        var faker = new Faker<User>()
+            .Ignore(x => x.Id)
             .RuleFor(x => x.Name, (f, _) => f.Person.FullName)
             .RuleFor(x => x.UserName, (f, _) => f.Person.UserName)
             .RuleFor(x => x.Password, (f, _) => f.Internet.PasswordEx(6, 10));
@@ -28,11 +29,14 @@ public static class SeedData
             users.Add(user);
         }
 
-        using var file = File.OpenWrite(@"D:\C#\SmokeTestLogin\PasswordGen.txt");
+        using var file = File.OpenWrite(@"D:\C#\SmokeTestLogin\PasswordGen.Gen.md");
         using var writer = new StreamWriter(file);
+        writer.WriteLine(
+            "| User Name            | Password   |\r\n|----------------------|------------|"
+        );
         foreach (var val in collectUserGenPass)
         {
-            writer.WriteLine($"User : {val.Key}, Pass: {val.Value}");
+            writer.WriteLine($"|{val.Key}|{val.Value}|");
         }
 
         return users;
@@ -47,11 +51,15 @@ public static class PassWordGenExtension
         int maxLength,
         bool includeUppercase = true,
         bool includeNumber = true,
-        bool includeSymbol = true)
+        bool includeSymbol = true
+    )
     {
-        if (internet == null) throw new ArgumentNullException(nameof(internet));
-        if (minLength < 1) throw new ArgumentOutOfRangeException(nameof(minLength));
-        if (maxLength < minLength) throw new ArgumentOutOfRangeException(nameof(maxLength));
+        if (internet == null)
+            throw new ArgumentNullException(nameof(internet));
+        if (minLength < 1)
+            throw new ArgumentOutOfRangeException(nameof(minLength));
+        if (maxLength < minLength)
+            throw new ArgumentOutOfRangeException(nameof(maxLength));
 
         var r = internet.Random;
         var s = "";
@@ -66,7 +74,8 @@ public static class PassWordGenExtension
         if (s.Length < maxLength)
             if (includeSymbol)
                 s += r.Char('#', '&').ToString();
-        if (s.Length < minLength) s += r.String2(minLength - s.Length); // pad up to min
+        if (s.Length < minLength)
+            s += r.String2(minLength - s.Length); // pad up to min
         if (s.Length < maxLength)
             s += r.String2(r.Number(0, maxLength - s.Length)); // random extra padding in range min..max
 
