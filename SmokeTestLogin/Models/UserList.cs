@@ -1,6 +1,4 @@
-﻿using SmokeTestLogin.Logic.Models;
-
-namespace SmokeTestLogin.Web.Models;
+﻿namespace SmokeTestLogin.Web.Models;
 
 public class UserList
 {

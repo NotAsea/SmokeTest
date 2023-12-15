@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using SmokeTestLogin.Logic.Models;
 
 namespace SmokeTestLogin.Web.Customs;
 
