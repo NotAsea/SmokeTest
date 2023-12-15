@@ -1,6 +1,5 @@
 ﻿using Bogus;
 using Bogus.DataSets;
-using SmokeTestLogin.Data.Entities;
 
 namespace SmokeTestLogin.Data.Utils;
 

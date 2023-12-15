@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SmokeTestLogin.Data.Entities;
-using SmokeTestLogin.Data.Utils;
+﻿using SmokeTestLogin.Data.Utils;
 
 namespace SmokeTestLogin.Data;
 

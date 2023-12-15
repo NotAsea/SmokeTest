@@ -28,9 +28,7 @@ public class MustLoginAttribute(string? role = null) : Attribute, IAuthorization
         }
     }
 
-    private bool CheckRole(ClaimsPrincipal user)
-    {
-        return string.IsNullOrEmpty(role)
-               || role.Split(',').Any(role => role == user.FindFirstValue(ClaimTypes.Role));
-    }
+    private bool CheckRole(ClaimsPrincipal user) =>
+        string.IsNullOrEmpty(role)
+        || role.Split(',').Any(s => s == user.FindFirstValue(ClaimTypes.Role));
 }

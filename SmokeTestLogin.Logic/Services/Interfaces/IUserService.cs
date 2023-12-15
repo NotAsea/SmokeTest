@@ -1,6 +1,4 @@
-﻿using SmokeTestLogin.Logic.Models;
-
-namespace SmokeTestLogin.Logic.Services.Interfaces;
+﻿namespace SmokeTestLogin.Logic.Services.Interfaces;
 
 public interface IUserService
 {

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using SmokeTestLogin.Data;
 using SmokeTestLogin.Data.Entities;
 using SmokeTestLogin.Data.Utils;
-using SmokeTestLogin.Logic.Models;
 using SmokeTestLogin.Logic.Services.Interfaces;
 
 namespace SmokeTestLogin.Logic.Services.Providers;
@@ -19,7 +18,10 @@ public class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, Mai
     {
         try
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == model.UserName);
+            var user = await context
+                .Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.UserName == model.UserName);
             if (user is null)
             {
                 return false;
@@ -44,10 +46,7 @@ public class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, Mai
         }
     }
 
-    public Task LogoutAsync()
-    {
-        return http.HttpContext!.SignOutAsync();
-    }
+    public Task LogoutAsync() => http.HttpContext!.SignOutAsync();
 
     private static ClaimsPrincipal CreateUserClaims(User user)
     {

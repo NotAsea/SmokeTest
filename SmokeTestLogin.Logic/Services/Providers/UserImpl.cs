@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmokeTestLogin.Data;
 using SmokeTestLogin.Data.Utils;
-using SmokeTestLogin.Logic.Models;
 using SmokeTestLogin.Logic.Services.Interfaces;
 
 namespace SmokeTestLogin.Logic.Services.Providers;
@@ -20,24 +19,16 @@ public class UserImpl(MainContext context) : IUserService
         await context.SaveChangesAsync();
     }
 
-    public async Task<UserInfo?> FindUserByIdAsync(long id)
-    {
-        return await context
-            .Users
-            .AsNoTracking()
-            .Select(x => x.ToDto())
-            .FirstOrDefaultAsync(x => x.Id == id);
-    }
+    public Task<UserInfo?> FindUserByIdAsync(long id) =>
+        context.Users.AsNoTracking().Select(x => x.ToDto()).FirstOrDefaultAsync(x => x.Id == id);
 
-    public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name)
-    {
-        return await context
+    public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name) =>
+        await context
             .Users
             .AsNoTracking()
             .Where(x => x.Name.Contains(name))
             .Select(x => x.ToDto())
             .ToListAsync();
-    }
 
     public async Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int size, string name = "")
     {
@@ -107,18 +98,13 @@ public class UserImpl(MainContext context) : IUserService
         }
     }
 
-    public async Task<IEnumerable<UserInfo>> FindUserByUserNameAsync(string userName)
-    {
-        return await context
+    public async Task<IEnumerable<UserInfo>> FindUserByUserNameAsync(string userName) =>
+        await context
             .Users
             .AsNoTracking()
             .Where(x => x.UserName == userName)
             .Select(x => x.ToDto())
             .ToListAsync();
-    }
 
-    public async Task<int> CountUsers()
-    {
-        return await context.Users.AsNoTracking().CountAsync();
-    }
+    public Task<int> CountUsers() => context.Users.AsNoTracking().CountAsync();
 }
