@@ -1,4 +1,6 @@
-﻿namespace SmokeTestLogin.Data.Entities;
+﻿// ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
+
+namespace SmokeTestLogin.Data.Entities;
 
 public class User
 {
@@ -7,8 +9,10 @@ public class User
     public string UserName { get; set; } = string.Empty;
 
     /// <summary>
-    /// this is our real field to store Hash Password, the Hash is used can be see at <see cref="Utils.SecretHasher.HashAsync(string)"/>
+    ///     this is our real field to store Hash Password, the Hash is used can be seen at
+    ///     <see cref="Utils.SecretHasher.HashAsync(string)" />
     /// </summary>
     public string Password { get; set; } = string.Empty;
+
     public bool IsActived { get; set; } = true;
 }

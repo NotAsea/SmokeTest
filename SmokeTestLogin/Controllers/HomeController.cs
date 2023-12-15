@@ -6,7 +6,7 @@ using SmokeTestLogin.Logic.Services.Interfaces;
 using SmokeTestLogin.Web.Customs;
 using SmokeTestLogin.Web.Models;
 
-namespace SmokeTestLogin.Controllers;
+namespace SmokeTestLogin.Web.Controllers;
 
 [MustLogin]
 public class HomeController(ILogger<HomeController> logger, IUserService userService) : Controller
@@ -35,7 +35,10 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     {
         var user = await userService.FindUserByIdAsync(id);
         if (user is not null)
+        {
             return PartialView("_Edit", user);
+        }
+
         logger.LogError("User with Id {} does not exist", id);
         return NotFound();
     }

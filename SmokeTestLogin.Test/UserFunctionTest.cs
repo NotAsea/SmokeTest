@@ -2,31 +2,38 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using SmokeTestLogin.Controllers;
 using SmokeTestLogin.Logic.Models;
 using SmokeTestLogin.Logic.Services.Interfaces;
+using SmokeTestLogin.Web.Controllers;
 
 namespace SmokeTestLogin.Test;
 
 [TestClass]
 public class UserFunctionTest
 {
-    [TestMethod]
-    public async Task Test_Edit_User()
+    private readonly ControllerContext _controllerContext;
+    private readonly HttpContext _httpCtx;
+    private readonly ILogger<HomeController> _logger;
+    private readonly Mock<IUserService> _mockUsers;
+
+    public UserFunctionTest()
     {
-        // setup request
-        var httpRequest = new Mock<HttpRequest>();
+        Mock<HttpRequest> httpRequest = new();
         httpRequest.Setup(x => x.Scheme).Returns("http");
         httpRequest
             .Setup(x => x.Host)
             .Returns(HostString.FromUriComponent("https://localhost:7296"));
         httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
-        var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
+        _httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
+        _logger = new Mock<ILogger<HomeController>>().Object;
+        _mockUsers = new Mock<IUserService>();
+        _controllerContext = new ControllerContext { HttpContext = _httpCtx };
+    }
 
-        var mockLogger = new Mock<ILogger<HomeController>>();
-
-        var mockUsers = new Mock<IUserService>();
+    [TestMethod]
+    public async Task Test_Edit_User()
+    {
         var model = new UserInfo
         {
             Id = 1,
@@ -35,15 +42,13 @@ public class UserFunctionTest
             UserName = "qqq",
             IsActivated = true
         };
-        mockUsers.Setup(x => x.FindUserByIdAsync(100)).ReturnsAsync(model);
-        mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
+        _mockUsers.Setup(x => x.FindUserByIdAsync(100)).ReturnsAsync(model);
+        _mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
-        // set up controller context
-        var controllerContext = new ControllerContext { HttpContext = httpCtx };
         // setup actual Controller
-        var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+        var homeController = new HomeController(_logger, _mockUsers.Object)
         {
-            ControllerContext = controllerContext
+            ControllerContext = _controllerContext
         };
 
         // begin test
@@ -59,19 +64,6 @@ public class UserFunctionTest
     [TestMethod]
     public async Task Test_Add_User()
     {
-        // setup request
-        var httpRequest = new Mock<HttpRequest>();
-        httpRequest.Setup(x => x.Scheme).Returns("http");
-        httpRequest
-            .Setup(x => x.Host)
-            .Returns(HostString.FromUriComponent("https://localhost:7296"));
-        httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
-
-        var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
-
-        var mockLogger = new Mock<ILogger<HomeController>>();
-
-        var mockUsers = new Mock<IUserService>();
         var model = new UserInfo
         {
             Id = 1,
@@ -80,15 +72,12 @@ public class UserFunctionTest
             UserName = "qqq",
             IsActivated = true
         };
-        mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
-
-        // set up controller context
-        var controllerContext = new ControllerContext { HttpContext = httpCtx };
+        _mockUsers.Setup(x => x.UpdateAsync(model)).ReturnsAsync("OK");
 
         // setup actual Controller
-        var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+        var homeController = new HomeController(_logger, _mockUsers.Object)
         {
-            ControllerContext = controllerContext
+            ControllerContext = _controllerContext
         };
 
         // begin test
@@ -103,19 +92,6 @@ public class UserFunctionTest
     [TestMethod]
     public async Task Test_Search_User()
     {
-        // setup request
-        var httpRequest = new Mock<HttpRequest>();
-        httpRequest.Setup(x => x.Scheme).Returns("http");
-        httpRequest
-            .Setup(x => x.Host)
-            .Returns(HostString.FromUriComponent("https://localhost:7296"));
-        httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
-
-        var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
-
-        var mockLogger = new Mock<ILogger<HomeController>>();
-
-        var mockUsers = new Mock<IUserService>();
         var model = new UserInfo
         {
             Id = 1,
@@ -125,15 +101,12 @@ public class UserFunctionTest
             IsActivated = true
         };
         const string searchStr = "blabalab";
-        mockUsers.Setup(x => x.FindUserByNameAsync(searchStr)).ReturnsAsync(new[] { model });
-
-        // set up controller context
-        var controllerContext = new ControllerContext { HttpContext = httpCtx };
+        _mockUsers.Setup(x => x.FindUserByNameAsync(searchStr)).ReturnsAsync(new[] { model });
 
         // setup actual Controller
-        var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+        var homeController = new HomeController(_logger, _mockUsers.Object)
         {
-            ControllerContext = controllerContext
+            ControllerContext = _controllerContext
         };
 
         // begin test
@@ -144,28 +117,12 @@ public class UserFunctionTest
     [TestMethod]
     public async Task Test_Delete_User()
     {
-        // setup request
-        var httpRequest = new Mock<HttpRequest>();
-        httpRequest.Setup(x => x.Scheme).Returns("http");
-        httpRequest
-            .Setup(x => x.Host)
-            .Returns(HostString.FromUriComponent("https://localhost:7296"));
-        httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
-
-        var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
-
-        var mockLogger = new Mock<ILogger<HomeController>>();
-
-        var mockUsers = new Mock<IUserService>();
-        mockUsers.Setup(x => x.DeleteAsync(121)).Returns(Task.CompletedTask);
-
-        // set up controller context
-        var controllerContext = new ControllerContext { HttpContext = httpCtx };
+        _mockUsers.Setup(x => x.DeleteAsync(121)).Returns(Task.CompletedTask);
 
         // setup actual Controller
-        var homeController = new HomeController(mockLogger.Object, mockUsers.Object)
+        var homeController = new HomeController(_logger, _mockUsers.Object)
         {
-            ControllerContext = controllerContext
+            ControllerContext = _controllerContext
         };
 
         // begin test

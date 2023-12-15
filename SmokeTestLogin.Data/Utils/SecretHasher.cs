@@ -6,47 +6,50 @@ namespace SmokeTestLogin.Data.Utils;
 
 public static class SecretHasher
 {
-    private const int _saltSize = 16; // 128 bits
-    private const int _keySize = 32; // 256 bits
-    private const int _iterations = 500;
-    private static readonly HashAlgorithmName _algorithm = HashAlgorithmName.SHA256;
+    private const int SaltSize = 16; // 128 bits
+    private const int KeySize = 32; // 256 bits
+    private const int Iterations = 500;
 
-    private const char segmentDelimiter = ':';
+    private const char SegmentDelimiter = ':';
+    private static readonly HashAlgorithmName Algorithm = HashAlgorithmName.SHA256;
 
     /// <summary>
-    /// Hash specific string, seed is embed directly to hash string result
+    ///     Hash specific string, seed is embed directly to hash string result
     /// </summary>
     /// <param name="input">string to hash</param>
     /// <returns></returns>
     public static string Hash(string input)
     {
-        var salt = RandomNumberGenerator.GetBytes(_saltSize);
-        var hash = Rfc2898DeriveBytes.Pbkdf2(input, salt, _iterations, _algorithm, _keySize);
+        var salt = RandomNumberGenerator.GetBytes(SaltSize);
+        var hash = Rfc2898DeriveBytes.Pbkdf2(input, salt, Iterations, Algorithm, KeySize);
         return string.Join(
-            segmentDelimiter,
+            SegmentDelimiter,
             Convert.ToHexString(hash),
             Convert.ToHexString(salt),
-            _iterations,
-            _algorithm
+            Iterations,
+            Algorithm
         );
     }
 
     /// <summary>
-    /// Async version of <see cref="Hash(string)"/>
+    ///     Async version of <see cref="Hash(string)" />
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public static async Task<string> HashAsync(string input) => await Task.FromResult(Hash(input));
+    public static Task<string> HashAsync(string input)
+    {
+        return Task.FromResult(Hash(input));
+    }
 
     /// <summary>
-    /// Verify a hash string and a original string is equal
+    ///     Verify a hash string and an original string is equal
     /// </summary>
     /// <param name="input">original string</param>
     /// <param name="hashString">hash string to compare</param>
     /// <returns>true if two string is equal, otherwise false</returns>
     public static bool Verify(string input, string hashString)
     {
-        var segments = hashString.Split(segmentDelimiter);
+        var segments = hashString.Split(SegmentDelimiter);
         var hash = Convert.FromHexString(segments[0]);
         var salt = Convert.FromHexString(segments[1]);
         var iterations = int.Parse(segments[2]);
@@ -56,11 +59,13 @@ public static class SecretHasher
     }
 
     /// <summary>
-    /// Async version of <see cref="Verify(string, string)"/>
+    ///     Async version of <see cref="Verify(string, string)" />
     /// </summary>
     /// <param name="input"></param>
     /// <param name="hashString"></param>
     /// <returns></returns>
-    public static async Task<bool> VerifyAsync(string input, string hashString) =>
-        await Task.FromResult(Verify(input, hashString));
+    public static Task<bool> VerifyAsync(string input, string hashString)
+    {
+        return Task.FromResult(Verify(input, hashString));
+    }
 }

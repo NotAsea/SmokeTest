@@ -39,8 +39,8 @@
                     <label for="IsActivated" class="form-label">Status</label>
                     @Html.DropDownListFor(m => m.IsActivated, new List<SelectListItem>
                     {
-                        new SelectListItem { Text = "Active", Value = "True" },
-                        new SelectListItem { Text = "Deactivated", Value = "False" }
+                        new() { Text = "Active", Value = "True" },
+                        new() { Text = "Deactivated", Value = "False" }
                     }, "", new { @class = "form-control" })
                 </div>
             }

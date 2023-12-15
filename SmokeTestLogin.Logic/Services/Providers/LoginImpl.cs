@@ -21,9 +21,15 @@ public class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, Mai
         {
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == model.UserName);
             if (user is null)
+            {
                 return false;
+            }
+
             if (!await SecretHasher.VerifyAsync(model.Password, user.Password))
+            {
                 return false;
+            }
+
             await http.HttpContext!.AuthenticateAsync();
             await http.HttpContext!.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -38,9 +44,9 @@ public class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, Mai
         }
     }
 
-    public async Task LogoutAsync()
+    public Task LogoutAsync()
     {
-        await http.HttpContext!.SignOutAsync();
+        return http.HttpContext!.SignOutAsync();
     }
 
     private static ClaimsPrincipal CreateUserClaims(User user)

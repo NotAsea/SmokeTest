@@ -7,7 +7,7 @@ public interface IUserService
     Task DeleteAsync(long id);
 
     /// <summary>
-    /// Fetch number of user start at <paramref name="index"/>
+    ///     Fetch number of user start at <paramref name="index" />
     /// </summary>
     /// <param name="index">where to start</param>
     /// <param name="size"></param>

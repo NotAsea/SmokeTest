@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace SmokeTestLogin.Web.Customs;
 
 /// <summary>
-/// Attribute to indicate every request to Action or Controller muse be authenticated
+///     Attribute to indicate every request to Action or Controller muse be authenticated
 /// </summary>
 /// <remarks>
-/// Initialize this Attribute
+///     Initialize this Attribute
 /// </remarks>
 /// <param name="role">Role to check, (hint: every role must delimit by comma) </param>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
@@ -28,7 +28,9 @@ public class MustLoginAttribute(string? role = null) : Attribute, IAuthorization
         }
     }
 
-    private bool CheckRole(ClaimsPrincipal user) =>
-        string.IsNullOrEmpty(role)
-        || role.Split(',').Any(role => role == user.FindFirstValue(ClaimTypes.Role));
+    private bool CheckRole(ClaimsPrincipal user)
+    {
+        return string.IsNullOrEmpty(role)
+               || role.Split(',').Any(role => role == user.FindFirstValue(ClaimTypes.Role));
+    }
 }

@@ -8,17 +8,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+builder
+    .Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(
+        CookieAuthenticationDefaults.AuthenticationScheme,
         options =>
         {
             options.ExpireTimeSpan = TimeSpan.FromHours(24);
             options.LoginPath = new PathString("/Login");
-        });
+        }
+    );
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ILoginService, LoginImpl>();
-builder.Services.AddScoped<IUserService, UserImpl>();
-builder.Services.AddDbContext<MainContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("Main")));
+builder.Services.AddScoped<ILoginService, LoginImpl>().AddScoped<IUserService, UserImpl>();
+builder
+    .Services
+    .AddDbContext<MainContext>(
+        opt => opt.UseSqlite(builder.Configuration.GetConnectionString("Main"))
+    );
 
 var app = builder.Build();
 
@@ -38,8 +45,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

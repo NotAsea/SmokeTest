@@ -1,6 +1,5 @@
-﻿@{
-    var home = ViewBag.Home as string;
-}
+﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,6 +55,6 @@
 </footer>
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-@await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>

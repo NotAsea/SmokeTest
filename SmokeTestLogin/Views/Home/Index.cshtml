@@ -7,6 +7,7 @@
     .btn-status {
         font-size: 0.65rem;
     }
+
     .loader {
         width: 48px;
         height: 48px;
@@ -16,16 +17,17 @@
         display: inline-block;
         box-sizing: border-box;
         animation: rotation 1s linear infinite;
-        }
-    
-        @@keyframes rotation {
+    }
+
+    @@keyframes rotation {
         0% {
             transform: rotate(0deg);
         }
+
         100% {
             transform: rotate(360deg);
         }
-        } 
+    }
 </style>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -33,7 +35,7 @@
     <h1 class="text-center">All User</h1>
     <div class="d-flex justify-content-end">
         <input type="text" placeholder="type here to search by Name, enter to search" class="form-control me-2 w-25" id="searchUser"/>
-        <button type="button" class="btn btn-secondary" onclick="getAddnew()">Add new User</button>
+        <button type="button" class="btn btn-secondary" onclick="getAddNew()">Add new User</button>
     </div>
     <div class="container-fluid" id="UserTable">
         <span class="loader"></span>
@@ -42,7 +44,7 @@
 <div class="modal fade" id="editBox" tabindex="-1" aria-labelledby="editBox" aria-hidden="true"></div>
 <script src="~/js/UserEdit/DisplayEditUser.js"></script>
 <script>
-$(document).ready(() => {
-    window.onload = () =>  loadTable();
-});
+    $(document).ready(() => {
+        window.onload = () => loadTable();
+    });
 </script>

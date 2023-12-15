@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmokeTestLogin.Data;
-using SmokeTestLogin.Data.Entities;
 using SmokeTestLogin.Data.Utils;
 using SmokeTestLogin.Logic.Models;
 using SmokeTestLogin.Logic.Services.Interfaces;
@@ -13,21 +12,32 @@ public class UserImpl(MainContext context) : IUserService
     {
         var user = await FindUserByIdAsync(id);
         if (user is null)
+        {
             return;
+        }
+
         context.Remove(user);
         await context.SaveChangesAsync();
     }
 
-    public async Task<UserInfo?> FindUserByIdAsync(long id) =>
-        await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<UserInfo?> FindUserByIdAsync(long id)
+    {
+        return await context
+            .Users
+            .AsNoTracking()
+            .Select(x => x.ToDto())
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
 
-    public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name) =>
-        await context
+    public async Task<IEnumerable<UserInfo>> FindUserByNameAsync(string name)
+    {
+        return await context
             .Users
             .AsNoTracking()
             .Where(x => x.Name.Contains(name))
-            .Select(x => (UserInfo)x)
+            .Select(x => x.ToDto())
             .ToListAsync();
+    }
 
     public async Task<IEnumerable<UserInfo>> GetUsersAsync(int index, int size, string name = "")
     {
@@ -40,7 +50,7 @@ public class UserImpl(MainContext context) : IUserService
                 .OrderBy(x => x.Id)
                 .Skip((index - 1) * size)
                 .Take(size)
-                .Select(x => (UserInfo)x)
+                .Select(x => x.ToDto())
                 .ToListAsync();
         }
 
@@ -50,13 +60,13 @@ public class UserImpl(MainContext context) : IUserService
             .OrderBy(x => x.Id)
             .Skip((index - 1) * size)
             .Take(size)
-            .Select(x => (UserInfo)x)
+            .Select(x => x.ToDto())
             .ToListAsync();
     }
 
     public async Task<string> UpdateAsync(UserInfo user)
     {
-        User entity = user;
+        var entity = user.ToEntity();
         try
         {
             if (user.Id > 0)
@@ -67,13 +77,18 @@ public class UserImpl(MainContext context) : IUserService
                     entity.Password = await SecretHasher.HashAsync(user.RawPassword);
                 }
                 else
+                {
                     entity.Password = user.Password;
+                }
 
                 if (
                     oldUser!.UserName != user.UserName
                     && (await FindUserByUserNameAsync(entity.UserName)).Any()
                 )
+                {
                     return "UserName has already taken";
+                }
+
                 context.Update(entity);
             }
             else
@@ -92,13 +107,18 @@ public class UserImpl(MainContext context) : IUserService
         }
     }
 
-    public async Task<IEnumerable<UserInfo>> FindUserByUserNameAsync(string userName) =>
-        await context
+    public async Task<IEnumerable<UserInfo>> FindUserByUserNameAsync(string userName)
+    {
+        return await context
             .Users
             .AsNoTracking()
             .Where(x => x.UserName == userName)
-            .Select(x => (UserInfo)x)
+            .Select(x => x.ToDto())
             .ToListAsync();
+    }
 
-    public async Task<int> CountUsers() => await context.Users.AsNoTracking().CountAsync();
+    public async Task<int> CountUsers()
+    {
+        return await context.Users.AsNoTracking().CountAsync();
+    }
 }

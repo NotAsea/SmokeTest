@@ -7,7 +7,7 @@ namespace SmokeTestLogin.Data.Utils;
 public static class SeedData
 {
     /// <summary>
-    /// <b>if you accidentally delete Local.db file or want reset database, be sure change path at File.OpenWrite </b>
+    ///     <b>if you accidentally delete Local.db file or want reset database, be sure change path at File.OpenWrite </b>
     /// </summary>
     /// <returns></returns>
     public static IEnumerable<User> Seed()
@@ -54,30 +54,47 @@ public static class PassWordGenExtension
         bool includeSymbol = true
     )
     {
-        if (internet == null)
-            throw new ArgumentNullException(nameof(internet));
-        if (minLength < 1)
-            throw new ArgumentOutOfRangeException(nameof(minLength));
-        if (maxLength < minLength)
-            throw new ArgumentOutOfRangeException(nameof(maxLength));
+        ArgumentNullException.ThrowIfNull(internet);
+        ArgumentOutOfRangeException.ThrowIfLessThan(minLength, 1);
+        ArgumentOutOfRangeException.ThrowIfLessThan(maxLength, minLength);
 
         var r = internet.Random;
         var s = "";
 
         s += r.Char('a', 'z').ToString();
         if (s.Length < maxLength)
+        {
             if (includeUppercase)
+            {
                 s += r.Char('A', 'Z').ToString();
+            }
+        }
+
         if (s.Length < maxLength)
+        {
             if (includeNumber)
+            {
                 s += r.Char('0', '9').ToString();
+            }
+        }
+
         if (s.Length < maxLength)
+        {
             if (includeSymbol)
+            {
                 s += r.Char('#', '&').ToString();
+            }
+        }
+
         if (s.Length < minLength)
+        {
             s += r.String2(minLength - s.Length); // pad up to min
+        }
+
         if (s.Length < maxLength)
+        {
             s += r.String2(r.Number(0, maxLength - s.Length)); // random extra padding in range min..max
+        }
 
         var chars = s.ToArray();
         var charsShuffled = r.Shuffle(chars).ToArray();

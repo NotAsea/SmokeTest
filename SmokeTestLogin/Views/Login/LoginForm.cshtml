@@ -14,21 +14,21 @@
         <div class="card-body">
             <h1 class="text-center">Login</h1>
             <h5 class="text-center fst-italic">Look like you need login to proceed</h5>
-            @using (Html.BeginForm("LoginForm", "Login", FormMethod.Post, new { @class = "m-2 mt-4"}))
+            @using (Html.BeginForm("LoginForm", "Login", FormMethod.Post, new { @class = "m-2 mt-4" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.ReturnUrl)
 
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                    @Html.LabelFor(m => m.UserName, new { @class="form-label" })
+                    @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-warning" })
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                    @Html.LabelFor(m=> m.Password, new { @class="form-label" })
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-warning" })
                 </div>

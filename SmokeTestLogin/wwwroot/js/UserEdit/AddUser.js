@@ -1,26 +1,27 @@
-﻿document.forms['FormAdd'].addEventListener('submit', (event) => {
+﻿document.forms["FormAdd"].addEventListener("submit", (event) => {
     event.preventDefault();
     fetch(event.target.action, {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        method: "POST",
+// ReSharper disable once InconsistentNaming
+        body: new window.URLSearchParams(new FormData(event.target)) // event.target is the form
     }).then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json(); // or response.text() or whatever the server sends
     }).then(_ => {
-        $('#editBox').modal('hide');
-        window.location.href = '/Home/';
+        $("#editBox").modal("hide");
+        window.location.href = "/Home/";
     }).catch((error) => {
         alert(error);
     });
 });
 
 function submitAdd() {
-    const userName = document.getElementById('UserName').value,
-        pass = document.getElementById('RawPassword').value,
-        unErr = document.getElementById('UNErr'),
-        pnErr = document.getElementById('PAErr');
+    const userName = document.getElementById("UserName").value,
+        pass = document.getElementById("RawPassword").value,
+        unErr = document.getElementById("UNErr"),
+        pnErr = document.getElementById("PAErr");
     let flag = false;
     unErr.innerHTML = pnErr.innerHTML = "";
     if (!userName) {
@@ -35,7 +36,7 @@ function submitAdd() {
         flag = true;
     }
     if (!flag)
-        document.getElementById('FormAdd').dispatchEvent(new Event("submit"));
+        document.getElementById("FormAdd").dispatchEvent(new Event("submit"));
 }
 
 function testPassword(pass) {
