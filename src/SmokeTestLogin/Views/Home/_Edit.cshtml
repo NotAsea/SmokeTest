@@ -1,0 +1,53 @@
+﻿@model UserInfo
+
+@{
+    Layout = null;
+}
+<script src="~/js/UserEdit/EditFunc.js"></script>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit User @Model.Name</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @class = "m-1", id = "FormEdit" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Password)
+
+                <div class="form-outline mb-4">
+                    @Html.LabelFor(m => m.Id, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control", disabled = "disabled", onclick = "this.select()" })
+                </div>
+                <div class="form-outline mb-4">
+                    @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-outline mb-4">
+                    @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    <div class="text-danger" id="UnameErr" style="display:none"></div>
+                </div>
+                <div class="form-outline mb-4">
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.RawPassword, new { @class = "form-control", value = Model.RawPassword })
+                    <div class="text-danger" id="PassErr" style="display:none"></div>
+                </div>
+                <div class="form-outline mb-4">
+                    <label for="IsActivated" class="form-label">Status</label>
+                    @Html.DropDownListFor(m => m.IsActivated, new List<SelectListItem>
+                    {
+                        new() { Text = "Active", Value = "True" },
+                        new() { Text = "Deactivated", Value = "False" }
+                    }, "", new { @class = "form-control" })
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="submitBtn()">Save changes</button>
+        </div>
+    </div>
+</div>

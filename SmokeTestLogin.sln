@@ -3,22 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Web", "SmokeTestLogin\SmokeTestLogin.Web.csproj", "{87A90B93-7AA1-4AC1-8031-E8309D476EF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Web", "src\SmokeTestLogin\SmokeTestLogin.Web.csproj", "{87A90B93-7AA1-4AC1-8031-E8309D476EF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Test", "SmokeTestLogin.Test\SmokeTestLogin.Test.csproj", "{610D6DF5-C521-44C5-9D1E-9791762565F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Test", "src\SmokeTestLogin.Test\SmokeTestLogin.Test.csproj", "{610D6DF5-C521-44C5-9D1E-9791762565F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Data", "SmokeTestLogin.Data\SmokeTestLogin.Data.csproj", "{2599F18B-237B-489D-B279-E6DFBB743F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Data", "src\SmokeTestLogin.Data\SmokeTestLogin.Data.csproj", "{2599F18B-237B-489D-B279-E6DFBB743F86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F860D3D2-FFE3-46E5-B4D7-9C51BB3FC702}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		PasswordGen.md = PasswordGen.md
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Logic", "SmokeTestLogin.Logic\SmokeTestLogin.Logic.csproj", "{D853B96D-D49D-43B0-8407-EE70DE0DA0AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestLogin.Logic", "src\SmokeTestLogin.Logic\SmokeTestLogin.Logic.csproj", "{D853B96D-D49D-43B0-8407-EE70DE0DA0AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{716405D6-DE47-4792-9B40-1850288C5383}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +49,11 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1906F62-921B-43D7-8835-D1385469AE23}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2599F18B-237B-489D-B279-E6DFBB743F86} = {716405D6-DE47-4792-9B40-1850288C5383}
+		{D853B96D-D49D-43B0-8407-EE70DE0DA0AC} = {716405D6-DE47-4792-9B40-1850288C5383}
+		{610D6DF5-C521-44C5-9D1E-9791762565F3} = {716405D6-DE47-4792-9B40-1850288C5383}
+		{87A90B93-7AA1-4AC1-8031-E8309D476EF3} = {716405D6-DE47-4792-9B40-1850288C5383}
 	EndGlobalSection
 EndGlobal
