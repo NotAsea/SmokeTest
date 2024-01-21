@@ -1,10 +1,21 @@
-﻿@model TanvirArjel.EFCore.GenericRepository.PaginatedList<UserInfo>
+﻿@using Cysharp.Text
+@model TanvirArjel.EFCore.GenericRepository.PaginatedList<UserInfo>
 
 @{
     Layout = null;
     const string pass = "*************";
 }
-
+<style>
+    .my-select  {
+        height: 37px;
+        width: 100px;
+    }
+</style>
+<script>
+    document.getElementById("pageSize").addEventListener("change", (ev) => {
+         loadTable(1, "", ev.target.value);
+    })
+</script>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -35,27 +46,58 @@
     }
     </tbody>
 </table>
-@if (Model.TotalPages > 1)
-{
-    <nav>
-        <ul class="pagination justify-content-end">
-            <li class="page-item">
-                <button type="button" class="page-link" onclick="loadTable(-1)" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </button>
-            </li>
-            @for (var i = 1; i <= Model.TotalPages; i++)
+<div class="d-flex justify-content-end gap-1">
+    <select id="pageSize"
+            class="form-select form-select-sm my-select"
+            aria-label="Default select example">
+        @{
+            int[] sizes = [10, 15, 20, 25];
+
+            bool SwitchLength(int x, int length) => (x, length) switch
             {
-                <li class="page-item @(Model.PageIndex == i ? "active" : "")" tag-index="@i">
-                    <button type="button" class="page-link" onclick="loadTable(@i)">@i</button>
-                </li>
+                (10, <= 10) => true,
+                (15, > 10 and <= 15) => true,
+                (20, > 15 and <= 20) => true,
+                (25, > 20) => true,
+                _ => false
+            };
+
+            using var str = ZString.CreateStringBuilder();
+            foreach (var i in sizes)
+            {
+                var num = i.ToString();
+                str.Append(ZString.Format(@"<option value=""{0}"" {1}>{2}</option>",
+                    num,
+                    SwitchLength(i, Model.Items.Count) ? "selected" : "",
+                    num));
             }
-            <li class="page-item">
-                <button type="button" class="page-link" onclick="loadTable(-2)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </button>
-            </li>
-        </ul>
-    </nav>
-    <div style="display: none" id="pageLimit" value="@Model.TotalPages"></div>
-}
+
+            var options = str.ToString();
+        }
+        @Html.Raw(options)
+    </select>
+    @if (Model.TotalPages > 1)
+    {
+        <nav>
+            <ul class="pagination justify-content-end">
+                <li class="page-item">
+                    <button type="button" class="page-link" onclick="loadTable(-1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                </li>
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(Model.PageIndex == i ? "active" : "")" tag-index="@i">
+                        <button type="button" class="page-link" onclick="loadTable(@i)">@i</button>
+                    </li>
+                }
+                <li class="page-item">
+                    <button type="button" class="page-link" onclick="loadTable(-2)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <div style="display: none" id="pageLimit" value="@Model.TotalPages"></div>
+    }
+</div>

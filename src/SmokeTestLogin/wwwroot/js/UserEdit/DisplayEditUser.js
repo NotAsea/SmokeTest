@@ -30,14 +30,15 @@ function deleteUser(id) {
     window.location.href = `/Home/Delete/${id}`;
 }
 
-function loadTable(index = 1, search = "") {
+function loadTable(index = 1, search = "", pageSize) {
+    const size = pageSize || document.getElementById("pageSize").value;
     if (index === -1 && checkOverflow(index)) {
         index = parseInt($("li.page-item.active").attr("tag-index")) - 1;
     } else if (index === -2 && checkOverflow(index)) {
         index = parseInt($("li.page-item.active").attr("tag-index")) + 1;
     } else if (index < 0 && !checkOverflow(index)) return;
     $.ajax({
-        url: `/Home/GetTable?index=${index}&size=15&name=${search}`,
+        url: `/Home/GetTable?index=${index}&size=${size}&name=${search}`,
         success: data => {
             $("#UserTable").html(data);
         },
@@ -52,12 +53,12 @@ function checkOverflow(index) {
     switch (index) {
         case -1:
             return current > 1;
-        case -2 :
-            { 
+        case -2 : {
             const limit = parseInt($("#pageLimit").attr("value"));
             return current < limit;
-            }
+        }
         default:
             return false;
     }
 }
+
