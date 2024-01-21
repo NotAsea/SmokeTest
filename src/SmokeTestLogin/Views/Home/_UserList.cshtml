@@ -81,6 +81,11 @@
         <nav>
             <ul class="pagination justify-content-end">
                 <li class="page-item">
+                    <button type="button" class="page-link" onclick="loadTable(1)" aria-label="Previous">
+                        <span aria-hidden="true">&larr;</span>
+                    </button>
+                </li>
+                <li class="page-item">
                     <button type="button" class="page-link" onclick="loadTable(-1)" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </button>
@@ -94,6 +99,11 @@
                 <li class="page-item">
                     <button type="button" class="page-link" onclick="loadTable(-2)" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link" onclick="loadTable(@Model.TotalPages)" aria-label="Next">
+                        <span aria-hidden="true">&rarr;</span>
                     </button>
                 </li>
             </ul>
