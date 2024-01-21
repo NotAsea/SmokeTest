@@ -13,14 +13,14 @@ This project use for example of Smoke test it contain 3 project
 
 ```
 
-* [SmokeTestLogin.Data](./SmokeTestLogin.Data) contains code for table definition,
-  a [MainContext](./SmokeTestLogin.Data/MainContext.cs) class for Entity Framework Core
-* [SmokeTestLogin.Web](./SmokeTestLogin) contains ASP.NET CORE MVC , it only has single `Home` and `Login` view, with
-  simple [MustLoginAttribute](./SmokeTestLogin/Customs/MustLoginAttribute.cs) to handle authenticate filter
-* [SmokeTestLogin.Test](./SmokeTestLogin.Test) project contain MSTest code for testing, two
-  class [LoginTest](./SmokeTestLogin.Test/LoginTest.cs) for test login, logout, or authorization
-  checking, [UserFunctionTest](./SmokeTestLogin.Test/UserFunctionTest.cs) for test user create, read, update, delete
-* [SmokeTestLogin.Logic](./SmokeTestLogin.Logic) for logic login and CRUD operation
+* [SmokeTestLogin.Data](./src/SmokeTestLogin.Data) contains code for table definition,
+  a [MainContext](./src/SmokeTestLogin.Data/MainContext.cs) class for Entity Framework Core
+* [SmokeTestLogin.Web](./src/SmokeTestLogin) contains ASP.NET CORE MVC , it only has single `Home` and `Login` view, with
+  simple [MustLoginAttribute](./src/SmokeTestLogin/Customs/MustLoginAttribute.cs) to handle authenticate filter
+* [SmokeTestLogin.Test](./src/SmokeTestLogin.Test) project contain MSTest code for testing, two
+  class [LoginTest](./src/SmokeTestLogin.Test/LoginTest.cs) for test login, logout, or authorization
+  checking, [UserFunctionTest](./src/SmokeTestLogin.Test/UserFunctionTest.cs) for test user create, read, update, delete
+* [SmokeTestLogin.Logic](./src/SmokeTestLogin.Logic) for logic login and CRUD operation
 
 SQLite database is used for sake of simple, only Entity Framework Core is required, anything else is native ASP.NET
 CORE, Bogus.Faker is used for generating fake data, but can be remove
