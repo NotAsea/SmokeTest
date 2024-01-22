@@ -4,76 +4,78 @@
 @{
     Layout = null;
     const string pass = "*************";
+    int[] sizes = [10, 15, 20, 25];
+    using var str = ZString.CreateStringBuilder();
+    foreach (var i in sizes)
+    {
+        var num = i.ToString();
+        str.Append(
+            ZString.Format(@"<option value=""{0}"" {1}>{2}</option>",
+                num,
+                SwitchLength(i, Model.Items.Count) ? "selected" : "",
+                num));
+    }
+
+    var options = str.ToString();
 }
+
+@functions
+{
+    static bool SwitchLength(int x, int length) => (x, length) switch
+    {
+        (10, <= 10) => true,
+        (15, > 10 and <= 15) => true,
+        (20, > 15 and <= 20) => true,
+        (25, > 20) => true,
+        _ => false
+    };
+}
+
 <style>
-    .my-select  {
+    .my-select {
         height: 37px;
         width: 100px;
     }
 </style>
 <script>
     document.getElementById("pageSize").addEventListener("change", (ev) => {
-         loadTable(1, "", ev.target.value);
+        loadTable(1, "", ev.target.value);
     })
 </script>
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">UserName</th>
-        <th scope="col">Password</th>
-        <th scope="col">Action</th>
-    </tr>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">UserName</th>
+            <th scope="col">Password</th>
+            <th scope="col">Action</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var user in Model.Items)
-    {
-        var status = user.IsActivated ? "Active" : "Deactivated";
-        var statusCss = user.IsActivated ? "bg-warning" : "bg-danger";
-        <tr>
-            <th class="border-end border-2" scope="row">@user.Id</th>
-            <td class="border-end border-2">
-                @user.Name <br/> <span class="badge @statusCss">@status</span>
-            </td>
-            <td class="border-end border-2">@user.UserName</td>
-            <td class="border-end border-2">@pass</td>
-            <td class="border-end border-2">
-                <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
-                <button class="btn btn-primary" onclick="deleteUser(@user.Id)">Delete</button>
-            </td>
-        </tr>
-    }
+        @foreach (var user in Model.Items)
+        {
+            var status = user.IsActivated ? "Active" : "Deactivated";
+            var statusCss = user.IsActivated ? "bg-warning" : "bg-danger";
+            <tr>
+                <th class="border-end border-2" scope="row">@user.Id</th>
+                <td class="border-end border-2">
+                    @user.Name <br /> <span class="badge @statusCss">@status</span>
+                </td>
+                <td class="border-end border-2">@user.UserName</td>
+                <td class="border-end border-2">@pass</td>
+                <td class="border-end border-2">
+                    <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
+                    <button class="btn btn-primary" onclick="deleteUser(@user.Id)">Delete</button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <div class="d-flex justify-content-end gap-1">
     <select id="pageSize"
             class="form-select form-select-sm my-select"
             aria-label="Default select example">
-        @{
-            int[] sizes = [10, 15, 20, 25];
-
-            bool SwitchLength(int x, int length) => (x, length) switch
-            {
-                (10, <= 10) => true,
-                (15, > 10 and <= 15) => true,
-                (20, > 15 and <= 20) => true,
-                (25, > 20) => true,
-                _ => false
-            };
-
-            using var str = ZString.CreateStringBuilder();
-            foreach (var i in sizes)
-            {
-                var num = i.ToString();
-                str.Append(ZString.Format(@"<option value=""{0}"" {1}>{2}</option>",
-                    num,
-                    SwitchLength(i, Model.Items.Count) ? "selected" : "",
-                    num));
-            }
-
-            var options = str.ToString();
-        }
         @Html.Raw(options)
     </select>
     @if (Model.TotalPages > 1)
