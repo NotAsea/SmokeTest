@@ -4,7 +4,7 @@ using Cysharp.Text;
 
 namespace SmokeTestLogin.Data.Utils;
 
-public static class SeedData
+internal static class SeedData
 {
     /// <summary>
     ///     <b>if you accidentally delete Local.db file or want reset database, be sure change path at File.OpenWrite </b>

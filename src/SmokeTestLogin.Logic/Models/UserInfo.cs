@@ -15,9 +15,9 @@ public record UserInfo
     public bool IsActivated { get; init; }
 }
 
-public static class UserConvert
+internal static class UserConvert
 {
-    public static UserInfo ToDto(this User? user) =>
+    internal static UserInfo ToDto(this User? user) =>
         user is not null
             ? new UserInfo
             {
@@ -29,7 +29,7 @@ public static class UserConvert
             }
             : new UserInfo();
 
-    public static User ToEntity(this UserInfo info) =>
+    internal static User ToEntity(this UserInfo info) =>
         new()
         {
             Id = info.Id,

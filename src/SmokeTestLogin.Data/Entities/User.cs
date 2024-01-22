@@ -3,7 +3,7 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace SmokeTestLogin.Data.Entities;
 
-public class User
+internal class User
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace SmokeTestLogin.Logic.Services.Providers;
 
-public class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, IRepository repository)
+internal sealed class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, IRepository repository)
     : ILoginService
 {
     public async Task<bool> LoginAsync(UserModel model)

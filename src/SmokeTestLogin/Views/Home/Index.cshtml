@@ -2,33 +2,36 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-<style>
-    .btn-status {
-        font-size: 0.65rem;
-    }
-
-    .loader {
-        width: 48px;
-        height: 48px;
-        border: 5px solid #FFF;
-        border-bottom-color: #FF3D00;
-        border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
-    }
-
-    @@keyframes rotation {
-        0% {
-            transform: rotate(0deg);
+@section Style
+{
+    <style>
+        .btn-status {
+            font-size: 0.65rem;
         }
-
-        100% {
-            transform: rotate(360deg);
+    
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: #FF3D00;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
         }
-    }
-</style>
+    
+        @@keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+    
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+}
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -42,9 +45,13 @@
     </div>
 </div>
 <div class="modal fade" id="editBox" tabindex="-1" aria-labelledby="editBox" aria-hidden="true"></div>
-<script src="~/js/UserEdit/DisplayEditUser.js"></script>
-<script>
+
+@section Scripts
+{
+    <script src="~/js/UserEdit/DisplayEditUser.js" asp-append-version="true"></script>
+    <script>
     $(document).ready(() => {
         window.onload = () => loadTable(1,"", 15);
     });
-</script>
+    </script>
+}

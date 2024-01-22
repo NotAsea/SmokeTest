@@ -1,6 +1,6 @@
 ﻿namespace SmokeTestLogin.Logic.Services.Providers;
 
-public class UserImpl(IRepository repository) : IUserService
+internal sealed class UserImpl(IRepository repository) : IUserService
 {
     public async Task DeleteAsync(long id)
     {
