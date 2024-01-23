@@ -83,6 +83,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     public async Task<IActionResult> GetTable(int index, int size, string name = "")
     {
         var result = await userService.GetUsersAsync(index, size, name);
+        ViewBag.Size = size;
         return PartialView("_UserList", result);
     }
 }

@@ -5,12 +5,13 @@
     Layout = null;
     const string pass = "*************";
     int[] sizes = [10, 15, 20, 25];
+    var size = (int)ViewBag.Size;
     using var str = ZString.CreateStringBuilder();
     foreach (var i in sizes)
     {
         var num = i.ToString();
         str.Append(
-            ZString.Format(@"<option value=""{0}"">{1}</option>", num, num));
+            ZString.Format(@"<option value=""{0}"" {1}>{2}</option>", num, i == size ? "selected": "" ,num));
     }
 
     var options = str.ToString();

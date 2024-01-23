@@ -31,7 +31,7 @@ function deleteUser(id) {
 }
 
 function loadTable(index = 1, search = "", pageSize) {
-    const size = pageSize || localStorage.getItem("pageSize")
+    const size = pageSize || document.getElementById("pageSize").value;
     if (index === -1 && checkOverflow(index)) {
         index = parseInt($("li.page-item.active").attr("tag-index")) - 1;
     } else if (index === -2 && checkOverflow(index)) {
@@ -41,8 +41,6 @@ function loadTable(index = 1, search = "", pageSize) {
         url: `/Home/GetTable?index=${index}&size=${size}&name=${search}`,
         success: data => {
             $("#UserTable").html(data);
-            $("#pageSize").val(size);
-            localStorage.setItem("pageSize", size);
         },
         error: () => {
             console.error();
