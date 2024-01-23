@@ -1,5 +1,5 @@
 ﻿function edit(id) {
-// ReSharper disable once UseOfImplicitGlobalInFunctionScope
+    // ReSharper disable once UseOfImplicitGlobalInFunctionScope
     $.ajax({
         url: `/Home/Edit/${id}`,
         success: data => {
@@ -31,7 +31,7 @@ function deleteUser(id) {
 }
 
 function loadTable(index = 1, search = "", pageSize) {
-    const size = pageSize || document.getElementById("pageSize").value;
+    const size = pageSize || localStorage.getItem("pageSize")
     if (index === -1 && checkOverflow(index)) {
         index = parseInt($("li.page-item.active").attr("tag-index")) - 1;
     } else if (index === -2 && checkOverflow(index)) {
@@ -41,6 +41,8 @@ function loadTable(index = 1, search = "", pageSize) {
         url: `/Home/GetTable?index=${index}&size=${size}&name=${search}`,
         success: data => {
             $("#UserTable").html(data);
+            $("#pageSize").val(size);
+            localStorage.setItem("pageSize", size);
         },
         error: () => {
             console.error();
@@ -53,7 +55,7 @@ function checkOverflow(index) {
     switch (index) {
         case -1:
             return current > 1;
-        case -2 : {
+        case -2: {
             const limit = parseInt($("#pageLimit").attr("value"));
             return current < limit;
         }

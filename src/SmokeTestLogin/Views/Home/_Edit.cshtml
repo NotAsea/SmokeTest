@@ -36,12 +36,12 @@
                     <div class="text-danger" id="PassErr" style="display:none"></div>
                 </div>
                 <div class="form-outline mb-4">
-                    <label for="IsActivated" class="form-label">Status</label>
-                    @Html.DropDownListFor(m => m.IsActivated, new List<SelectListItem>
-                    {
-                        new() { Text = "Active", Value = "True" },
-                        new() { Text = "Deactivated", Value = "False" }
-                    }, "", new { @class = "form-control" })
+                    @Html.LabelFor(x => x.IsActivated, new { @class = "form-label" })
+                    @Html.DropDownListFor(m => m.IsActivated, 
+                    [
+                        new SelectListItem { Text = "Active", Value = "True" },
+                        new SelectListItem { Text = "Deactivated", Value = "False" }
+                    ], "", new { @class = "form-control" })
                 </div>
             }
         </div>

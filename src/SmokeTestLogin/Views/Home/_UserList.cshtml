@@ -10,25 +10,11 @@
     {
         var num = i.ToString();
         str.Append(
-            ZString.Format(@"<option value=""{0}"" {1}>{2}</option>",
-                num,
-                SwitchLength(i, Model.Items.Count) ? "selected" : "",
-                num));
+            ZString.Format(@"<option value=""{0}"">{1}</option>", num, num));
     }
 
     var options = str.ToString();
-}
-
-@functions
-{
-    static bool SwitchLength(int x, int length) => (x, length) switch
-    {
-        (10, <= 10) => true,
-        (15, > 10 and <= 15) => true,
-        (20, > 15 and <= 20) => true,
-        (25, > 20) => true,
-        _ => false
-    };
+    var totalPage = Model.TotalPages.ToString();
 }
 
 <style>
@@ -57,16 +43,17 @@
         {
             var status = user.IsActivated ? "Active" : "Deactivated";
             var statusCss = user.IsActivated ? "bg-warning" : "bg-danger";
+            var userId = user.Id.ToString();
             <tr>
-                <th class="border-end border-2" scope="row">@user.Id</th>
+                <th class="border-end border-2" scope="row">@userId</th>
                 <td class="border-end border-2">
                     @user.Name <br /> <span class="badge @statusCss">@status</span>
                 </td>
                 <td class="border-end border-2">@user.UserName</td>
                 <td class="border-end border-2">@pass</td>
                 <td class="border-end border-2">
-                    <button class="btn btn-primary" onclick="edit(@user.Id)">Edit</button>
-                    <button class="btn btn-primary" onclick="deleteUser(@user.Id)">Delete</button>
+                    <button class="btn btn-primary" onclick="edit(@userId">Edit</button>
+                    <button class="btn btn-primary" onclick="deleteUser(@userId">Delete</button>
                 </td>
             </tr>
         }
@@ -94,8 +81,9 @@
                 </li>
                 @for (var i = 1; i <= Model.TotalPages; i++)
                 {
-                    <li class="page-item @(Model.PageIndex == i ? "active" : "")" tag-index="@i">
-                        <button type="button" class="page-link" onclick="loadTable(@i)">@i</button>
+                    var num = i.ToString();
+                    <li class="page-item @(Model.PageIndex == i ? "active" : "")" tag-index="@num">
+                        <button type="button" class="page-link" onclick="loadTable(@num">@num</button>
                     </li>
                 }
                 <li class="page-item">
@@ -104,12 +92,12 @@
                     </button>
                 </li>
                 <li class="page-item">
-                    <button type="button" class="page-link" onclick="loadTable(@Model.TotalPages)" aria-label="Next">
+                    <button type="button" class="page-link" onclick="loadTable(@totalPage)" aria-label="Next">
                         <span aria-hidden="true">&rarr;</span>
                     </button>
                 </li>
             </ul>
         </nav>
-        <div style="display: none" id="pageLimit" value="@Model.TotalPages"></div>
+        <div style="display: none" id="pageLimit" value="@totalPage"></div>
     }
 </div>
