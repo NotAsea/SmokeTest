@@ -53,8 +53,8 @@
                 <td class="border-end border-2">@user.UserName</td>
                 <td class="border-end border-2">@pass</td>
                 <td class="border-end border-2">
-                    <button class="btn btn-primary" onclick="edit(@userId">Edit</button>
-                    <button class="btn btn-primary" onclick="deleteUser(@userId">Delete</button>
+                    <button class="btn btn-primary" onclick="edit(@userId)">Edit</button>
+                    <button class="btn btn-primary" onclick="deleteUser(@userId)">Delete</button>
                 </td>
             </tr>
         }
@@ -84,7 +84,7 @@
                 {
                     var num = i.ToString();
                     <li class="page-item @(Model.PageIndex == i ? "active" : "")" tag-index="@num">
-                        <button type="button" class="page-link" onclick="loadTable(@num">@num</button>
+                        <button type="button" class="page-link" onclick="loadTable(@num)">@num</button>
                     </li>
                 }
                 <li class="page-item">
