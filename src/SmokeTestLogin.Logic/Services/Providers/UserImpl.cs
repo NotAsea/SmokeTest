@@ -63,7 +63,7 @@ internal sealed class UserImpl(IRepository repository) : IUserService
                 {
                     return "UserName has already taken";
                 }
-                repository.ClearChangeTracker();
+
                 repository.Update(entity);
             }
             else
@@ -81,6 +81,10 @@ internal sealed class UserImpl(IRepository repository) : IUserService
         {
             await transaction.RollbackAsync().ConfigureAwait(false);
             return ex.ToString();
+        }
+        finally
+        {
+            repository.ClearChangeTracker();
         }
     }
 

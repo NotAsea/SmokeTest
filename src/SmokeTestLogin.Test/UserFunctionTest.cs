@@ -12,7 +12,6 @@ namespace SmokeTestLogin.Test;
 public class UserFunctionTest
 {
     private readonly ControllerContext _controllerContext;
-    private readonly HttpContext _httpCtx;
     private readonly ILogger<HomeController> _logger;
     private readonly Mock<IUserService> _mockUsers;
 
@@ -25,10 +24,10 @@ public class UserFunctionTest
             .Returns(HostString.FromUriComponent("https://localhost:7296"));
         httpRequest.Setup(x => x.PathBase).Returns(PathString.FromUriComponent("/Home"));
 
-        _httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
+        var httpCtx = Mock.Of<HttpContext>(x => x.Request == httpRequest.Object);
         _logger = new Mock<ILogger<HomeController>>().Object;
         _mockUsers = new Mock<IUserService>();
-        _controllerContext = new ControllerContext { HttpContext = _httpCtx };
+        _controllerContext = new ControllerContext { HttpContext = httpCtx };
     }
 
     [TestMethod]
@@ -101,7 +100,7 @@ public class UserFunctionTest
             IsActivated = true
         };
         const string searchStr = "blabalab";
-        _mockUsers.Setup(x => x.FindUserByNameAsync(searchStr)).ReturnsAsync(new[] { model });
+        _mockUsers.Setup(x => x.FindUserByNameAsync(searchStr)).ReturnsAsync([model]);
 
         // setup actual Controller
         var homeController = new HomeController(_logger, _mockUsers.Object)

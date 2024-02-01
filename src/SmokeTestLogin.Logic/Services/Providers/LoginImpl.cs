@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-// ReSharper disable SuggestBaseTypeForParameterInConstructor
 
 namespace SmokeTestLogin.Logic.Services.Providers;
 
-internal sealed class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> logger, IRepository repository)
-    : ILoginService
+internal sealed class LoginImpl(
+    IHttpContextAccessor http,
+    ILogger<LoginImpl> logger,
+    IQueryRepository repository
+) : ILoginService
 {
     public async Task<bool> LoginAsync(UserModel model)
     {
@@ -27,8 +29,8 @@ internal sealed class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> lo
                 return false;
             }
 
-            await http.HttpContext!.AuthenticateAsync();
-            await http.HttpContext!.SignInAsync(
+            await http.HttpContext.AuthenticateAsync();
+            await http.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 CreateUserClaims(user),
                 new AuthenticationProperties
@@ -48,7 +50,7 @@ internal sealed class LoginImpl(IHttpContextAccessor http, ILogger<LoginImpl> lo
         }
     }
 
-    public Task LogoutAsync() => http.HttpContext!.SignOutAsync();
+    public Task LogoutAsync() => http.HttpContext.SignOutAsync();
 
     private static ClaimsPrincipal CreateUserClaims(User user)
     {

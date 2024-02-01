@@ -84,6 +84,7 @@ public class HomeController(ILogger<HomeController> logger, IUserService userSer
     {
         var result = await userService.GetUsersAsync(index, size, name);
         ViewBag.Size = size;
+        ViewBag.SizeList = new[] { 10, 15, 20, 25 };
         return PartialView("_UserList", result);
     }
 }
